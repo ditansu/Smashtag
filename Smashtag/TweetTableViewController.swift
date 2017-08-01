@@ -75,11 +75,11 @@ class TweetTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //get cell and tweet
         let cell = tableView.dequeueReusableCell(withIdentifier: "Tweet", for: indexPath)
-        let tweet: Twitter.Tweet = tweets[indexPath.section][indexPath.row]
-        
-        //setup cell by tweet
-        cell.textLabel?.text = tweet.text
-        cell.detailTextLabel?.text = tweet.user.name
+//        let tweet: Twitter.Tweet = tweets[indexPath.section][indexPath.row]
+//        
+//        //setup cell by tweet
+//        cell.textLabel?.text = tweet.text
+//        cell.detailTextLabel?.text = tweet.user.name
         
         return cell
     }

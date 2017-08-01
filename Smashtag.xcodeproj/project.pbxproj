@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024114541F31003400FAE520 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024114531F31003400FAE520 /* TweetTableViewCell.swift */; };
 		029F1B381F2F7579009AF9FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B371F2F7579009AF9FE /* AppDelegate.swift */; };
 		029F1B3D1F2F7579009AF9FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029F1B3B1F2F7579009AF9FE /* Main.storyboard */; };
 		029F1B3F1F2F7579009AF9FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 029F1B3E1F2F7579009AF9FE /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		024114531F31003400FAE520 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		029F1B341F2F7579009AF9FE /* Smashtag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smashtag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		029F1B371F2F7579009AF9FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		029F1B3C1F2F7579009AF9FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				029F1B661F2F76A7009AF9FE /* TweetTableViewController.swift */,
+				024114531F31003400FAE520 /* TweetTableViewCell.swift */,
 				029F1B3B1F2F7579009AF9FE /* Main.storyboard */,
 				029F1B431F2F7579009AF9FE /* Info.plist */,
 				029F1B651F2F75D0009AF9FE /* Supporting files */,
@@ -292,6 +295,7 @@
 			files = (
 				029F1B381F2F7579009AF9FE /* AppDelegate.swift in Sources */,
 				029F1B671F2F76A7009AF9FE /* TweetTableViewController.swift in Sources */,
+				024114541F31003400FAE520 /* TweetTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
