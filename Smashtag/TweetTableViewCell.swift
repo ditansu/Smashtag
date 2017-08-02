@@ -23,6 +23,7 @@ class TweetTableViewCell: UITableViewCell {
         tweetUserLabel?.text = tweet?.user.description
         
         if let profileImgageURL = tweet?.user.profileImageURL {
+            // FIXME: block main thread
             if let imageData = try? Data(contentsOf: profileImgageURL) {
                 tweetProfileImageView?.image = UIImage(data: imageData)
             }
@@ -31,7 +32,15 @@ class TweetTableViewCell: UITableViewCell {
         }
         
         if let created = tweet?.created {
-            
+            let formatter = DateFormatter()
+            if Date().timeIntervalSince(created) > 24*60*60 {
+                formatter.dateStyle = .short
+            } else {
+                formatter.timeStyle = .short
+            }
+            tweetCreatedLabel?.text = formatter.string(from: created)
+        } else {
+            tweetCreatedLabel?.text = nil
         }
         
     }

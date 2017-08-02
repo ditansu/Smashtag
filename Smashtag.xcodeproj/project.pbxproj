@@ -15,8 +15,8 @@
 		029F1B4D1F2F7579009AF9FE /* SmashtagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B4C1F2F7579009AF9FE /* SmashtagTests.swift */; };
 		029F1B581F2F7579009AF9FE /* SmashtagUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B571F2F7579009AF9FE /* SmashtagUITests.swift */; };
 		029F1B671F2F76A7009AF9FE /* TweetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B661F2F76A7009AF9FE /* TweetTableViewController.swift */; };
-		029F1B691F2F8A6D009AF9FE /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029F1B681F2F8A6D009AF9FE /* Twitter.framework */; };
-		029F1B6A1F2F8A6D009AF9FE /* Twitter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 029F1B681F2F8A6D009AF9FE /* Twitter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		029F1B7A1F31D562009AF9FE /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029F1B791F31D562009AF9FE /* Twitter.framework */; };
+		029F1B7B1F31D562009AF9FE /* Twitter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 029F1B791F31D562009AF9FE /* Twitter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +37,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		029F1B6B1F2F8A6D009AF9FE /* Embed Frameworks */ = {
+		029F1B751F31D522009AF9FE /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				029F1B6A1F2F8A6D009AF9FE /* Twitter.framework in Embed Frameworks */,
+				029F1B7B1F31D562009AF9FE /* Twitter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,7 +65,7 @@
 		029F1B571F2F7579009AF9FE /* SmashtagUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmashtagUITests.swift; sourceTree = "<group>"; };
 		029F1B591F2F7579009AF9FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		029F1B661F2F76A7009AF9FE /* TweetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewController.swift; sourceTree = "<group>"; };
-		029F1B681F2F8A6D009AF9FE /* Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		029F1B791F31D562009AF9FE /* Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				029F1B691F2F8A6D009AF9FE /* Twitter.framework in Frameworks */,
+				029F1B7A1F31D562009AF9FE /* Twitter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +97,7 @@
 		029F1B2B1F2F7579009AF9FE = {
 			isa = PBXGroup;
 			children = (
-				029F1B681F2F8A6D009AF9FE /* Twitter.framework */,
+				029F1B791F31D562009AF9FE /* Twitter.framework */,
 				029F1B361F2F7579009AF9FE /* Smashtag */,
 				029F1B4B1F2F7579009AF9FE /* SmashtagTests */,
 				029F1B561F2F7579009AF9FE /* SmashtagUITests */,
@@ -165,7 +165,7 @@
 				029F1B301F2F7579009AF9FE /* Sources */,
 				029F1B311F2F7579009AF9FE /* Frameworks */,
 				029F1B321F2F7579009AF9FE /* Resources */,
-				029F1B6B1F2F8A6D009AF9FE /* Embed Frameworks */,
+				029F1B751F31D522009AF9FE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
