@@ -17,9 +17,31 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     
     var tweet : Twitter.Tweet? { didSet { updateUI()} }
-
+    
+    var tweetMentionsAttributes : [String: [String:Any]]?
+    
     private func updateUI(){
-        tweetTextLabel?.text = tweet?.text
+        
+        //temp
+        
+        let attrStr : [String:Any] = [NSForegroundColorAttributeName : UIColor.blue]
+        
+        let tweetText = NSMutableAttributedString(string: tweet?.text ?? "")
+        
+        //tweetText.beginEditing()
+        
+        if let userMentions = tweet?.userMentions {
+            for mention in userMentions {
+                tweetText.addAttributes(attrStr, range: mention.nsrange)
+            }
+        }
+        
+       // tweetText.endEditing()
+        
+        //tweet?.userMentions
+        //print(tweet?.userMentions)
+        
+        tweetTextLabel?.attributedText = tweetText
         tweetUserLabel?.text = tweet?.user.description
         
         if let profileImgageURL = tweet?.user.profileImageURL {
