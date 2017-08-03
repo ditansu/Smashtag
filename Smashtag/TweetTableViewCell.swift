@@ -17,38 +17,40 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     
     var tweet : Twitter.Tweet? { didSet { updateUI()} }
+    //for task # 1
+    var tweetMentionsAttributes : [String : [String:Any] ] =
+        [
     
-    var tweetMentionsAttributes : [String: [String:Any]]?
+        "user"      : [NSForegroundColorAttributeName : UIColor.green,
+                       NSUnderlineStyleAttributeName  : NSUnderlineStyle.styleSingle.rawValue ],
+        "hashtag"   : [NSForegroundColorAttributeName : UIColor.red],
+        "url"       : [NSForegroundColorAttributeName : UIColor.blue,
+                       NSUnderlineStyleAttributeName  : NSUnderlineStyle.styleSingle.rawValue ]
+        ]
     
     private func updateUI(){
         
-        //temp
-        
-        let attrStr : [String:Any] = [NSForegroundColorAttributeName : UIColor.blue]
         
         let tweetText = NSMutableAttributedString(string: tweet?.text ?? "")
         
-        //tweetText.beginEditing()
-        
-        if let userMentions = tweet?.userMentions {
-            for mention in userMentions {
-                tweetText.addAttributes(attrStr, range: mention.nsrange)
-            }
-        }
-        
-       // tweetText.endEditing()
-        
-        //tweet?.userMentions
-        //print(tweet?.userMentions)
+        tweetText.addAttributesForRanges(tweetMentionsAttributes["user"]!, ranges: tweet?.usersMentionsRanges)
+        tweetText.addAttributesForRanges(tweetMentionsAttributes["hashtag"]!, ranges: tweet?.hashtagsMentionsRanges)
+        tweetText.addAttributesForRanges(tweetMentionsAttributes["url"]!, ranges: tweet?.urlsMentionsRanges)
         
         tweetTextLabel?.attributedText = tweetText
         tweetUserLabel?.text = tweet?.user.description
         
         if let profileImgageURL = tweet?.user.profileImageURL {
             // FIXME: block main thread
-            if let imageData = try? Data(contentsOf: profileImgageURL) {
-                tweetProfileImageView?.image = UIImage(data: imageData)
+            DispatchQueue.global(qos: .userInitiated).async{
+                if let imageData = try? Data(contentsOf: profileImgageURL) {
+                    DispatchQueue.main.async { [weak self] in
+                        self!.tweetProfileImageView?.image = UIImage(data: imageData)
+                    }
+                    
+                }
             }
+            
         } else {
             tweetProfileImageView?.image = nil
         }
@@ -67,3 +69,31 @@ class TweetTableViewCell: UITableViewCell {
         
     }
 }
+
+
+
+extension Tweet {
+
+   private func mentionsToNSRangesArray(mentions : [Twitter.Mention]) -> [NSRange]? {
+        var result : [NSRange]? = []
+        for mention in mentions {
+            result?.append(mention.nsrange)
+        }
+        return result
+    }
+    
+    var usersMentionsRanges : [NSRange]? { get { return mentionsToNSRangesArray(mentions: self.userMentions) } }
+    var hashtagsMentionsRanges : [NSRange]? { get { return mentionsToNSRangesArray(mentions: self.hashtags) } }
+    var urlsMentionsRanges : [NSRange]? { get { return mentionsToNSRangesArray(mentions: self.urls) } }
+
+}
+
+extension NSMutableAttributedString {
+    
+    func addAttributesForRanges(_ attrs: [String : Any] = [:], ranges: [NSRange]?) {
+        guard let rangeArray = ranges else {return}
+        for range in rangeArray { self.addAttributes(attrs, range: range)  }
+    }
+
+}
+
