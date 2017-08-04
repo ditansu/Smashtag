@@ -130,4 +130,77 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
 
+// MARK: - Navigation
+    
+    private struct slaveMVC {
+        static let MentionMVC = "MentionMVC"
+    }
+
+    
+    
+    func prepareTweetMention(mentionVC : MentionsTableViewController, tweet : Twitter.Tweet) {
+        mentionVC.tweetMentions?.hashtags = tweet.hashtags.map{ $0.keyword }
+        
+        var images : [TweetMentions.TweetImage] = []
+        
+        
+        images = tweet.media.map{TweetMentions.TweetImage(url: $0.url, aspectRatio: $0.aspectRatio)}
+        
+        mentionVC.tweetMentions?.images =
+    
+    }
+    
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case slaveMVC.MentionMVC :
+            
+            guard let mentionVC = (segue.destination.contents as? MentionsTableViewController),
+                  let cell = sender as?  TweetTableViewCell,
+                  let tweet = cell.tweet  else { return }
+            
+            prepareTweetMention(mentionVC: mentionVC, tweet: tweet)
+            
+            //case slaveMVC.someSlaveMVC :
+        default:
+            return
+        }
+        
+        
+    }
+    
+    
 }
+
+
+extension UIViewController {
+    
+    var contents: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        } else {
+            return self
+        }
+        
+    }
+}
+
+extension Tweet {
+
+    var hashtagsToString : [String] {
+    
+        return hashtags.map{ $0.keyword }
+    }
+
+
+}
+
+
+
+

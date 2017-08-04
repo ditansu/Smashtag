@@ -86,7 +86,7 @@
                                     <outlet property="tweetProfileImageView" destination="JxD-dq-Zvp" id="Hpa-6V-22Z"/>
                                     <outlet property="tweetTextLabel" destination="2T3-xE-PVd" id="o0Q-qh-InZ"/>
                                     <outlet property="tweetUserLabel" destination="8UE-nr-XJy" id="ozx-Yq-XnH"/>
-                                    <segue destination="jCx-Yv-osi" kind="show" id="kge-vy-z2o"/>
+                                    <segue destination="jCx-Yv-osi" kind="show" identifier="MentionMVC" id="kge-vy-z2o"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
