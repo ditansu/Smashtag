@@ -19,7 +19,6 @@
 		029F1B7E1F320A0C009AF9FE /* Twitter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 029F1B7C1F320A0C009AF9FE /* Twitter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		029F1B811F337335009AF9FE /* MentionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B801F337335009AF9FE /* MentionsTableViewController.swift */; };
 		029F1B841F337971009AF9FE /* ImageMentionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B831F337971009AF9FE /* ImageMentionTableViewCell.swift */; };
-		029F1B861F3379A7009AF9FE /* MentionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B851F3379A7009AF9FE /* MentionsTableViewCell.swift */; };
 		029F1B881F337A14009AF9FE /* MentionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B871F337A14009AF9FE /* MentionsModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,7 +71,6 @@
 		029F1B7C1F320A0C009AF9FE /* Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		029F1B801F337335009AF9FE /* MentionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewController.swift; sourceTree = "<group>"; };
 		029F1B831F337971009AF9FE /* ImageMentionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMentionTableViewCell.swift; sourceTree = "<group>"; };
-		029F1B851F3379A7009AF9FE /* MentionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewCell.swift; sourceTree = "<group>"; };
 		029F1B871F337A14009AF9FE /* MentionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,7 +175,6 @@
 			children = (
 				029F1B801F337335009AF9FE /* MentionsTableViewController.swift */,
 				029F1B831F337971009AF9FE /* ImageMentionTableViewCell.swift */,
-				029F1B851F3379A7009AF9FE /* MentionsTableViewCell.swift */,
 				029F1B871F337A14009AF9FE /* MentionsModel.swift */,
 			);
 			name = MentionsMVC;
@@ -322,7 +319,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				029F1B881F337A14009AF9FE /* MentionsModel.swift in Sources */,
-				029F1B861F3379A7009AF9FE /* MentionsTableViewCell.swift in Sources */,
 				029F1B811F337335009AF9FE /* MentionsTableViewController.swift in Sources */,
 				029F1B381F2F7579009AF9FE /* AppDelegate.swift in Sources */,
 				029F1B841F337971009AF9FE /* ImageMentionTableViewCell.swift in Sources */,

@@ -98,9 +98,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         //get cell and tweet
         let cell = tableView.dequeueReusableCell(withIdentifier: "Tweet", for: indexPath)
         let tweet: Twitter.Tweet = tweets[indexPath.section][indexPath.row]
-//        //setup cell by tweet
-//        cell.textLabel?.text = tweet.text
-//        cell.detailTextLabel?.text = tweet.user.name
         
         if let tweetCell = cell as? TweetTableViewCell {
             tweetCell.tweet = tweet
@@ -138,16 +135,20 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
     
     
-    func prepareTweetMention(mentionVC : MentionsTableViewController, tweet : Twitter.Tweet) {
-        mentionVC.tweetMentions?.hashtags = tweet.hashtags.map{ $0.keyword }
+    func prepareTweetMention(tweet : Twitter.Tweet)-> [TweetMentions] {
         
-        var images : [TweetMentions.TweetImage] = []
+        var tweetMentions = [TweetMentions]()
+        if !tweet.media.isEmpty {
+            tweetMentions.append(.image("Изображения", tweet.media.map{ // convert Mention to TweetImage
+                return (url: $0.url, aspectRatio: $0.aspectRatio)
+                } as ImageMentions))
+        }
         
-        
-        images = tweet.media.map{TweetMentions.TweetImage(url: $0.url, aspectRatio: $0.aspectRatio)}
-        
-        mentionVC.tweetMentions?.images =
-    
+        if !tweet.hashtags.isEmpty      { tweetMentions.append(.mentions("Хештеги", tweet.hashtags.map{ $0.keyword })) }
+        if !tweet.urls.isEmpty          { tweetMentions.append(.mentions("Ссылки", tweet.urls.map{ $0.keyword })) }
+        if !tweet.userMentions.isEmpty  { tweetMentions.append(.mentions("Пользователи", tweet.userMentions.map{ $0.keyword })) }
+
+        return tweetMentions
     }
     
     
@@ -164,8 +165,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             guard let mentionVC = (segue.destination.contents as? MentionsTableViewController),
                   let cell = sender as?  TweetTableViewCell,
                   let tweet = cell.tweet  else { return }
-            
-            prepareTweetMention(mentionVC: mentionVC, tweet: tweet)
+            mentionVC.tweetMentions = prepareTweetMention(tweet: tweet)
+            mentionVC.title = tweet.user.screenName
             
             //case slaveMVC.someSlaveMVC :
         default:
@@ -191,15 +192,7 @@ extension UIViewController {
     }
 }
 
-extension Tweet {
 
-    var hashtagsToString : [String] {
-    
-        return hashtags.map{ $0.keyword }
-    }
-
-
-}
 
 
 
