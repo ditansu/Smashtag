@@ -20,29 +20,64 @@ import Foundation
 //struct TweetMentions : CustomStringConvertible {
 
 
-typealias ImageMentions = [(url: URL, aspectRatio : Double)]
-typealias TextMentions = [String]
-typealias Title = String
+//typealias ImageMentions = [(url: URL, aspectRatio : Double)]
+//typealias TextMentions = [String]
+//typealias Title = String
+//
+//
+//enum TweetMentions  {
+//    case image    (Title,ImageMentions)
+//    case mentions (Title,TextMentions)
+//}
+//
+//
+//
+//extension TweetMentions : CustomStringConvertible {
+//
+//    var description: String {
+//        switch self {
+//        case .image(let title, let imageMentions):
+//            return "\(title) : \(imageMentions)"
+//        case .mentions(let title, let textMentions):
+//            return "\(title) :\(textMentions)"
+//        }
+//    }
+//}
+//
 
+enum MentionType {
+    case image
+    case text
+}
 
-enum TweetMentions  {
-    case image    (Title,ImageMentions)
-    case mentions (Title,TextMentions)
+enum Mention {
+    case image((url: URL, aspectRatio : Double))
+    case text(String)
+}
+
+protocol TweetMention {
+    
+}
+
+struct Mentions  {
+    var count : Int { return self.mentions.count }
+    let title : String
+    let type  : MentionType
+    let mentions : [Mention]
+}
+
+extension Mentions : CustomStringConvertible {
+    
+    var description: String { return "" }
+    
 }
 
 
 
-extension TweetMentions : CustomStringConvertible {
 
-    var description: String {
-        switch self {
-        case .image(let title, let imageMentions):
-            return "\(title) : \(imageMentions)"
-        case .mentions(let title, let textMentions):
-            return "\(title) :\(textMentions)"
-        }
-    }
-}
+
+
+
 
 
 //var tweetMentions = [MentionContent] ()

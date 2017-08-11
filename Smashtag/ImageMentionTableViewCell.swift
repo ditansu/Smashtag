@@ -15,9 +15,13 @@ class ImageMentionTableViewCell: UITableViewCell {
     
     @IBOutlet weak var imageMentionView: UIImageView!
     
+    
+    
+    // to upadate image after rotate iPhone
     func resetSize() {
         imageMentionView.frame.size = CGSize(width: self.frame.width, height: self.frame.height)
     }
+    
     
     private func updaeUI(){
         
@@ -28,9 +32,8 @@ class ImageMentionTableViewCell: UITableViewCell {
         DispatchQueue.global(qos: .userInitiated).async{
             if let imageData = try? Data(contentsOf: curretImageURL) {
                 DispatchQueue.main.async { [weak self] in
-                    //check a situation after dreams
+                    //check a situation after dreams ;)
                     guard curretImageURL == self!.imageURL else { return }
-                    
                     // set image
                     self!.imageMentionView.image = UIImage(data: imageData)
                     //set size!!! 
