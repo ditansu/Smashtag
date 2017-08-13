@@ -15,16 +15,16 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     // each sub-Array of Tweets
     private var tweets = [Array<Twitter.Tweet>]()
-//    {
-//        didSet {
-//            print(tweets)
-//        }
-//    }
+    //    {
+    //        didSet {
+    //            print(tweets)
+    //        }
+    //    }
     
-   
+    
     // public part of our Model
-    // when this is set 
-    // we'll reset our tweets Array 
+    // when this is set
+    // we'll reset our tweets Array
     // to reflect the result of fetching Tweets that match
     var searchText : String? {
         didSet{
@@ -38,7 +38,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-     // SEARCH
+    // SEARCH
     @IBOutlet weak var searchTextField: UITextField! {
         didSet {
             searchTextField.delegate = self
@@ -84,7 +84,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     
-    // MARK: - UITableViewDataSource 
+    // MARK: - UITableViewDataSource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return tweets.count
@@ -104,18 +104,18 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
         return cell
     }
-//    REFRESHING
+    //    REFRESHING
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "\(tweets.count - section)"
     }
- 
+    
     @IBAction func refresh(_ sender: UIRefreshControl) {
         searchForTweets()
     }
     
     
     
-// MARK: View Controller Lifecycle
+    // MARK: View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,29 +125,57 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         
         //searchText = "#stanford"
     }
-
-
-// MARK: - Navigation
+    
+    
+    // MARK: - Navigation
     
     private struct slaveMVC {
         static let MentionMVC = "MentionMVC"
     }
-
     
     
-    func prepareTweetMention(tweet : Twitter.Tweet)-> [TweetMentions] {
+    //fill Model for MentionMVC 
+    
+    func prepareTweetMentions(tweet : Twitter.Tweet)-> [TweetMentions] {
         
         var tweetMentions = [TweetMentions]()
+        
         if !tweet.media.isEmpty {
-            tweetMentions.append(.image("Изображения", tweet.media.map{ // convert Mention to TweetImage
-                return (url: $0.url, aspectRatio: $0.aspectRatio)
-                } as ImageMentions))
+            tweetMentions.append(
+                TweetMentions(
+                    title: "Изображения",
+                    mentions: tweet.media.map{ TweetMentions.Mention.image((url: $0.url , aspectRatio: $0.aspectRatio))}
+                )
+            )
         }
         
-        if !tweet.hashtags.isEmpty      { tweetMentions.append(.mentions("Хештеги", tweet.hashtags.map{ $0.keyword })) }
-        if !tweet.urls.isEmpty          { tweetMentions.append(.mentions("Ссылки", tweet.urls.map{ $0.keyword })) }
-        if !tweet.userMentions.isEmpty  { tweetMentions.append(.mentions("Пользователи", tweet.userMentions.map{ $0.keyword })) }
-
+        if !tweet.hashtags.isEmpty {
+            tweetMentions.append(
+                TweetMentions(
+                    title: "Хештеги",
+                    mentions: tweet.hashtags.map{ TweetMentions.Mention.text($0.keyword)}
+                )
+            )
+        }
+        
+        if !tweet.urls.isEmpty {
+            tweetMentions.append(
+                TweetMentions(
+                    title: "Ссылки",
+                    mentions: tweet.urls.map{ TweetMentions.Mention.text($0.keyword)}
+                )
+            )
+        }
+        
+        if !tweet.userMentions.isEmpty {
+            tweetMentions.append(
+                TweetMentions(
+                    title: "Пользователи",
+                    mentions: tweet.userMentions.map{ TweetMentions.Mention.text($0.keyword)}
+                )
+            )
+        }
+        
         return tweetMentions
     }
     
@@ -163,12 +191,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         case slaveMVC.MentionMVC :
             
             guard let mentionVC = (segue.destination.contents as? MentionsTableViewController),
-                  let cell = sender as?  TweetTableViewCell,
-                  let tweet = cell.tweet  else { return }
-            mentionVC.tweetMentions = prepareTweetMention(tweet: tweet)
+                let cell = sender as?  TweetTableViewCell,
+                let tweet = cell.tweet  else { return }
+            mentionVC.tweetMentions = prepareTweetMentions(tweet: tweet)
             mentionVC.title = tweet.user.screenName
             
-            //case slaveMVC.someSlaveMVC :
+        //case slaveMVC.someSlaveMVC :
         default:
             return
         }

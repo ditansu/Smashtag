@@ -127,11 +127,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l7r-3U-7Jt">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l7r-3U-7Jt">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="109.5"/>
                                         </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="l7r-3U-7Jt" firstAttribute="leading" secondItem="yt2-yD-YfR" secondAttribute="leading" id="UIr-0y-jy7"/>
+                                        <constraint firstAttribute="bottom" secondItem="l7r-3U-7Jt" secondAttribute="bottom" id="Yge-Tu-Zvx"/>
+                                        <constraint firstItem="l7r-3U-7Jt" firstAttribute="top" secondItem="yt2-yD-YfR" secondAttribute="top" id="eP8-EQ-vFu"/>
+                                        <constraint firstAttribute="trailing" secondItem="l7r-3U-7Jt" secondAttribute="trailing" id="qcf-fm-hcX"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="imageMentionView" destination="l7r-3U-7Jt" id="Wy8-S6-xNp"/>
@@ -153,6 +158,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="jfx-WO-VJq" kind="show" identifier="tweetfindMVC" id="5cg-kd-H23"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -163,7 +171,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DMl-Iy-TpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1936.875" y="164.78873239436621"/>
+            <point key="canvasLocation" x="2278" y="165"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yrj-QB-08h">
@@ -184,4 +192,7 @@
             <point key="canvasLocation" x="101.25" y="164.78873239436621"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="5cg-kd-H23"/>
+    </inferredMetricsTieBreakers>
 </document>
