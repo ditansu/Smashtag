@@ -129,9 +129,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Navigation
     
-    private struct slaveMVC {
-        static let MentionMVC = "MentionMVC"
-    }
     
     
     //fill Model for MentionMVC 
@@ -143,7 +140,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         if !tweet.media.isEmpty {
             tweetMentions.append(
                 TweetMentions(
-                    title: "Изображения",
+                       title: "Изображения",
+                        type: MentionType.image,
                     mentions: tweet.media.map{ TweetMentions.Mention.image((url: $0.url , aspectRatio: $0.aspectRatio))}
                 )
             )
@@ -152,7 +150,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         if !tweet.hashtags.isEmpty {
             tweetMentions.append(
                 TweetMentions(
-                    title: "Хештеги",
+                       title: "Хештеги",
+                        type: MentionType.hashtag,
                     mentions: tweet.hashtags.map{ TweetMentions.Mention.text($0.keyword)}
                 )
             )
@@ -161,7 +160,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         if !tweet.urls.isEmpty {
             tweetMentions.append(
                 TweetMentions(
-                    title: "Ссылки",
+                       title: "Ссылки",
+                        type: MentionType.url,
                     mentions: tweet.urls.map{ TweetMentions.Mention.text($0.keyword)}
                 )
             )
@@ -170,7 +170,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         if !tweet.userMentions.isEmpty {
             tweetMentions.append(
                 TweetMentions(
-                    title: "Пользователи",
+                       title: "Пользователи",
+                        type: MentionType.userinfo,
                     mentions: tweet.userMentions.map{ TweetMentions.Mention.text($0.keyword)}
                 )
             )
@@ -179,6 +180,10 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         return tweetMentions
     }
     
+    private struct slaveMVC {
+        static let MentionMVC = "MentionMVC"
+    }
+
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

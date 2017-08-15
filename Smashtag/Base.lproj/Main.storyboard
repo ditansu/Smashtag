@@ -13,7 +13,7 @@
         <!--Tweet Table View Controller-->
         <scene sceneID="hv0-fe-k5C">
             <objects>
-                <tableViewController id="jfx-WO-VJq" customClass="TweetTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TweetFindMVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jfx-WO-VJq" customClass="TweetTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="89" sectionHeaderHeight="28" sectionFooterHeight="28" id="Y1M-t4-vU2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -158,9 +158,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="jfx-WO-VJq" kind="show" identifier="tweetfindMVC" id="5cg-kd-H23"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -172,6 +169,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DMl-Iy-TpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2278" y="165"/>
+        </scene>
+        <!--Image Show Control-->
+        <scene sceneID="2PF-Ru-mRa">
+            <objects>
+                <viewController storyboardIdentifier="ImageShowMVC" id="rET-Ui-gB0" customClass="ImageShowControl" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qeb-dR-af6"/>
+                        <viewControllerLayoutGuide type="bottom" id="JC9-wm-QNv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3xo-Ge-liB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNB-hT-r9J">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yGg-Md-TZm">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="yGg-Md-TZm" firstAttribute="centerX" secondItem="ZNB-hT-r9J" secondAttribute="centerX" id="12w-4c-afG"/>
+                                    <constraint firstAttribute="trailing" secondItem="yGg-Md-TZm" secondAttribute="trailing" id="GWT-Zy-ogZ"/>
+                                    <constraint firstItem="yGg-Md-TZm" firstAttribute="leading" secondItem="ZNB-hT-r9J" secondAttribute="leading" id="aBR-Yx-Z0u"/>
+                                    <constraint firstItem="yGg-Md-TZm" firstAttribute="top" secondItem="ZNB-hT-r9J" secondAttribute="top" id="hIi-am-zN5"/>
+                                    <constraint firstItem="yGg-Md-TZm" firstAttribute="centerY" secondItem="ZNB-hT-r9J" secondAttribute="centerY" id="jOE-kT-lZP"/>
+                                    <constraint firstAttribute="bottom" secondItem="yGg-Md-TZm" secondAttribute="bottom" id="mUC-Ug-kVQ"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZNB-hT-r9J" secondAttribute="trailing" id="6NE-tZ-TTu"/>
+                            <constraint firstItem="ZNB-hT-r9J" firstAttribute="bottom" secondItem="JC9-wm-QNv" secondAttribute="top" id="AMj-MD-ZoO"/>
+                            <constraint firstItem="ZNB-hT-r9J" firstAttribute="leading" secondItem="3xo-Ge-liB" secondAttribute="leading" id="ILW-TD-QQT"/>
+                            <constraint firstItem="ZNB-hT-r9J" firstAttribute="top" secondItem="3xo-Ge-liB" secondAttribute="top" id="uMD-83-74G"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageShow" destination="ZNB-hT-r9J" id="ixh-4P-mE1"/>
+                        <outlet property="imageView" destination="yGg-Md-TZm" id="Nne-v8-6bC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ds6-dk-p1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3305.625" y="167.95774647887325"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yrj-QB-08h">
@@ -192,7 +235,4 @@
             <point key="canvasLocation" x="101.25" y="164.78873239436621"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="5cg-kd-H23"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -7,8 +7,6 @@
 //
 
 
-//5. Если пользователь выбирает какой-то  hashtag  или  user  в таблице “ mentions ”, то вы должны куда-то “переехать” (segue), чтобы показать результаты поиска в Twitter этого  hashtag  или u  ser . Это должен быть поиск именно  hashtags  или users , а не просто строки с  именем   hashtag  или  user  (например, поиск “#stanford”, а не “stanford”).  View Controller , куда вы “переедите” (segue), должен работать точно также, как ваш главный  View Controller , показывающий твиты ( TweetTableViewController ).
-
 
 import UIKit
 
@@ -113,6 +111,71 @@ class MentionsTableViewController: UITableViewController {
     }
     
     
+    // MARK: - Navigation
+    
+    
+    private struct slaveMVC {
+        static let tweetFindMVC = "TweetFindMVC"
+        static let imageShowMVC = "ImageShowMVC"
+    }
+
+    
+    
+    // MARK: - Navigation
+    // by didSelectRowAt and navigationController.pushViewController
+    // for each kind of content:
+    // .hashtag, .user - search mention in new MVC
+    // .url - open Safari with url
+    // .image - open ScrollView MVC for zooming and scroll image
+
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let mentions = tweetMentions?[indexPath.section] else {return}
+        guard let nav = self.navigationController else {return}
+        guard let cell = tableView.cellForRow(at: indexPath)  else {return}
+    
+        switch mentions.type {
+        
+        case .hashtag, .userinfo:
+            
+            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
+            {
+                print("ooops! we can't load \(slaveMVC.tweetFindMVC)")
+                return
+            }
+           
+            tweetVC.searchText = cell.textLabel!.text!
+            nav.pushViewController(tweetVC, animated: true)
+       
+        case .url:
+            
+            guard let url = URL(string: cell.textLabel!.text!) else {return}
+            
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+            
+            
+        case .image:
+            
+            guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
+            {
+                print("ooops! we can't load \(slaveMVC.imageShowMVC)")
+                return
+            }
+            
+            guard let imageCell = cell as? ImageMentionTableViewCell else {return}
+            imageVC.image = imageCell.imageMentionView.image
+            nav.pushViewController(imageVC, animated: true)
+        }
+        
+    }
+    
+    
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -148,14 +211,22 @@ class MentionsTableViewController: UITableViewController {
      }
      */
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+
+    
+    
+//     // In a storyboard-based application, you will often want to do a little preparation before navigation
+//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//     // Get the new view controller using segue.destinationViewController.
+//     // Pass the selected object to the new view controller.
+//     
+//     }
+//    
+//    
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//       
+//        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
+//        
+//    }
+//    
     
 }

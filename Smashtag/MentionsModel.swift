@@ -8,6 +8,15 @@
 
 import Foundation
 
+
+enum MentionType {
+    case image
+    case hashtag
+    case url
+    case userinfo
+}
+
+
 struct TweetMentions  {
     
     enum Mention {
@@ -18,10 +27,12 @@ struct TweetMentions  {
     var count : Int { return self.mentions.count }
     let title : String
     let mentions : [Mention]
+    let type : MentionType
     
-    init(title : String, mentions : [Mention]) {
+    init(title : String, type : MentionType,  mentions : [Mention]) {
         self.title = title
         self.mentions = mentions
+        self.type = type
     }
 }
 
