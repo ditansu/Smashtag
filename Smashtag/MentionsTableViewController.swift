@@ -142,7 +142,7 @@ class MentionsTableViewController: UITableViewController {
             
             guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
             {
-                print("ooops! we can't load \(slaveMVC.tweetFindMVC)")
+                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
                 return
             }
            
@@ -164,7 +164,7 @@ class MentionsTableViewController: UITableViewController {
             
             guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
             {
-                print("ooops! we can't load \(slaveMVC.imageShowMVC)")
+                print("ooops! we can't load next MVC:  \(slaveMVC.imageShowMVC)")
                 return
             }
             

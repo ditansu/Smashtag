@@ -13,14 +13,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     //MARK: MODEL
     
+    
     // each sub-Array of Tweets
     private var tweets = [Array<Twitter.Tweet>]()
-    //    {
-    //        didSet {
-    //            print(tweets)
-    //        }
-    //    }
-    
     
     // public part of our Model
     // when this is set
@@ -35,8 +30,26 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             tableView.reloadData()
             searchForTweets()
             title = searchText
+            recentSearch = searchText
         }
     }
+    
+    private var recentSearchs = RecentMentions()
+    
+    private var recentSearch : String? {
+    
+        get {
+            recentSearchs.load()
+            return recentSearchs.count > 0 ? recentSearchs[0] : nil
+        }
+        
+        set {
+            recentSearchs.appendUnique(mention: newValue!)
+        }
+    
+    }
+        
+    
     
     // SEARCH
     @IBOutlet weak var searchTextField: UITextField! {
@@ -122,8 +135,20 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-        
+    
+        searchTextField.text = recentSearch
         //searchText = "#stanford"
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       // searchTextField.text = recentSearch
     }
     
     
@@ -216,12 +241,20 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 extension UIViewController {
     
     var contents: UIViewController {
-        if let navcon = self as? UINavigationController {
-            return navcon.visibleViewController ?? self
-        } else {
-            return self
-        }
         
+        if let tabcon = self as? UITabBarController {
+            if let navcon = tabcon.viewControllers?.first as? UINavigationController {
+                return navcon.visibleViewController ?? self
+            } else {
+                return tabcon.viewControllers?.first ?? self
+            }
+        } else {
+            if let navcon = self as? UINavigationController {
+                return navcon.visibleViewController ?? self
+            } else {
+                return self
+            }
+        }
     }
 }
 
