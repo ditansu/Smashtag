@@ -30,7 +30,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             tableView.reloadData()
             searchForTweets()
             title = searchText
-            recentSearch = searchText
         }
     }
     
@@ -39,7 +38,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private var recentSearch : String? {
     
         get {
-            recentSearchs.load()
             return recentSearchs.count > 0 ? recentSearchs[0] : nil
         }
         
@@ -52,7 +50,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     // SEARCH
-    @IBOutlet weak var searchTextField: UITextField! {
+    @IBOutlet var searchTextField: UITextField! {
         didSet {
             searchTextField.delegate = self
         }
@@ -61,6 +59,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == searchTextField {
             searchText = searchTextField.text
+            recentSearch = searchTextField.text
         }
         return true
     }
@@ -135,20 +134,15 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-    
-        searchTextField.text = recentSearch
+        searchText = recentSearch
         //searchText = "#stanford"
     }
     
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
-       // searchTextField.text = recentSearch
+        super.viewWillAppear(animated)
+        searchText = recentSearch
+        // searchTextField.text = recentSearch
     }
     
     

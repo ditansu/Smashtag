@@ -18,6 +18,7 @@ class MentionsTableViewController: UITableViewController {
     
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -145,7 +146,10 @@ class MentionsTableViewController: UITableViewController {
                 print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
                 return
             }
-           
+            
+            var recentSearchs = RecentMentions()
+            recentSearchs.appendUnique(mention: cell.textLabel!.text!)
+        
             tweetVC.searchText = cell.textLabel!.text!
             nav.pushViewController(tweetVC, animated: true)
        

@@ -10,7 +10,7 @@ import UIKit
 
 class ImageShowControl: UIViewController {
 
-    @IBOutlet weak var imageView: UIImageView! {
+    @IBOutlet var imageView: UIImageView! {
         didSet{
             imageView.image = image
             imageShow?.contentSize = imageView.frame.size
@@ -18,12 +18,13 @@ class ImageShowControl: UIViewController {
     
     }
     
-    @IBOutlet weak var imageShow: UIScrollView! {
+    @IBOutlet var imageShow: UIScrollView! {
     
         didSet {
             imageShow.delegate = self
             imageShow.maximumZoomScale = 2.0
             imageShow.minimumZoomScale = 0.03
+            
         }
     
     }
@@ -32,6 +33,11 @@ class ImageShowControl: UIViewController {
     var image: UIImage?
     
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.edgesForExtendedLayout = UIRectEdge.bottom
+    }
     
 }
 

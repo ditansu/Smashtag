@@ -29,10 +29,14 @@ class RecentMentionsController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        recentMentions.load()
         tableView.reloadData() 
     }
     
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.title = "Недаваний поиск"
+    }
     
     // MARK: - Table view data source
 
@@ -110,10 +114,9 @@ class RecentMentionsController: UITableViewController {
         
         switch identifier {
         case slaveMVC.SearchMVC :
-            guard let searchVC = (segue.destination.contents as? TweetTableViewController),
-                let cell = sender as? UITableViewCell else { return }
-            searchVC.searchText = cell.textLabel?.text
-           
+            guard let cell = sender as? UITableViewCell else { return }
+            let text = cell.textLabel?.text ?? ""
+            recentMentions.appendUnique(mention: text)
         //case slaveMVC.someSlaveMVC :
         default:
             return

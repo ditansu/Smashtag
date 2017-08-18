@@ -8,17 +8,13 @@
 
 import Foundation
 
-protocol Loadble {
-    mutating func load()
-   
-}
 
 
-struct RecentMentions : Loadble {
+struct RecentMentions {
     
     private let key  = "RecentMentions"
     private let maxCount = 100
-    private var recentMentions = [String]()
+    fileprivate var recentMentions = [String]()
     private let ud = UserDefaults.standard
     
     private func save(){
@@ -27,13 +23,17 @@ struct RecentMentions : Loadble {
         print(" DEB1: save arr: \(recentMentions)")
     }
     
-    mutating func load(){
+    fileprivate mutating func load(){
         recentMentions = ud.stringArray(forKey: key) ?? []
         print("DEB1: load arr: \(recentMentions)")
     }
     
+    init() {
+        load()
+    }
+    
     mutating func appendUnique(mention: String) {
-        
+        load()
         if recentMentions.contains(mention) {
             recentMentions = recentMentions.filter{ $0 != mention }
         }
@@ -46,15 +46,22 @@ struct RecentMentions : Loadble {
         save()
     }
     
+    
+    
+}
+
+extension RecentMentions {
+
     var count : Int { return recentMentions.count  }
     
     
     subscript(index : Int) -> String {
-        get {
+        mutating get {
+            load()
             guard !recentMentions.isEmpty else {return ""}
             return recentMentions[recentMentions.count - 1 - index]
         }
         
     }
-    
+
 }
