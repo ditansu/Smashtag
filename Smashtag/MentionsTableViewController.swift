@@ -147,7 +147,7 @@ class MentionsTableViewController: UITableViewController {
                 return
             }
             
-            var recentSearchs = RecentMentions()
+            var recentSearchs = RecentQueries()
             recentSearchs.appendUnique(mention: cell.textLabel!.text!)
         
             tweetVC.searchText = cell.textLabel!.text!

@@ -43,7 +43,47 @@ extension TweetMentions : CustomStringConvertible {
 }
 
 
+typealias Title = String
+typealias ImageMentions = [(url: URL, aspectRatio : Double)]
+typealias TextMentions = [String]
 
+enum TweetMentions2 {
+
+    case image   (Title, ImageMentions)
+    case hashtag (Title, TextMentions)
+    case url     (Title, TextMentions)
+    case user    (Title, TextMentions)
+
+}
+
+extension TweetMentions2 {
+
+    var count : Int {
+        
+        switch self {
+        case .image (_, let mentions):
+            return mentions.count
+        case .hashtag(_, let mentions), .url(_, let mentions), .user(_, let mentions):
+            return mentions.count
+        }
+    
+    }
+    
+    var title : String {
+        
+        switch self {
+        case .image (let title, _):
+            return title
+        case .hashtag(let title, _), .url(let title, _), .user(let title, _):
+            return title
+        }
+        
+    }
+    
+    
+
+
+}
 
 
 

@@ -33,7 +33,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    private var recentSearchs = RecentMentions()
+    private var recentSearchs = RecentQueries()
     
     private var recentSearch : String? {
     
@@ -151,6 +151,33 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     //fill Model for MentionMVC 
+    
+    func prepareTweetMentions2(tweet : Twitter.Tweet)-> [TweetMentions2] {
+        
+        var tweetMentions = [TweetMentions2]()
+        
+        if !tweet.media.isEmpty {
+            tweetMentions.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
+        }
+        
+        if !tweet.hashtags.isEmpty {
+            tweetMentions.append(.hashtag("Хештеги", tweet.hashtags.map{$0.keyword}))
+        }
+        
+        if !tweet.urls.isEmpty {
+             tweetMentions.append(.url("Ссылки", tweet.urls.map{$0.keyword}))
+        }
+        
+        if !tweet.userMentions.isEmpty {
+            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword}))
+        }
+        
+        return tweetMentions
+    }
+
+    
+    
+    
     
     func prepareTweetMentions(tweet : Twitter.Tweet)-> [TweetMentions] {
         
