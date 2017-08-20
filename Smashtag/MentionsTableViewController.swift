@@ -48,11 +48,11 @@ class MentionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch tweetMentions![indexPath.section].mentions[indexPath.row] {
+        switch tweetMentions![indexPath.section] {
             
-        case .image(let url, _):
+        case .image(_, let images):
             let cell = tableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath)
-            
+            let url = images[indexPath.row].url
             if let imageCell = cell as? ImageMentionTableViewCell {
                 if  imageCell.imageURL != url {
                     imageCell.imageURL = url
@@ -60,10 +60,10 @@ class MentionsTableViewController: UITableViewController {
             }
             return cell
             
-        case .text(let text)  :
+        case .hashtag(_, let mentions), .url(_, let mentions), .user(_, let mentions)  :
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "Textcell", for: indexPath)
-            cell.textLabel?.text = text
+            cell.textLabel?.text = mentions[indexPath.row]
             return cell
             
         }
@@ -73,18 +73,20 @@ class MentionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch tweetMentions![indexPath.section].mentions[indexPath.row] {
+        switch tweetMentions![indexPath.section] {
             
-        case .image(_, let aspectRatio):
+        case .image(_, let images):
+            
+            let aspectRatio = CGFloat(images[indexPath.row].aspectRatio)
             
             let tableWidth = tableView.frame.width
             let tableHeight = tableView.frame.height + tableView.bounds.minY
             sectionHeaderHeight = max(sectionHeaderHeight,tableView.headerView(forSection: indexPath.section)?.frame.height ?? 0.0 )
             
-            return min(tableWidth / CGFloat(aspectRatio), tableHeight - sectionHeaderHeight)
+            return min(tableWidth / aspectRatio, tableHeight - sectionHeaderHeight)
             
             
-        case .text(_):
+        case .hashtag(_,_), .url(_,_), .user(_,_):
             
             return UITableViewAutomaticDimension
             
@@ -137,9 +139,9 @@ class MentionsTableViewController: UITableViewController {
         guard let nav = self.navigationController else {return}
         guard let cell = tableView.cellForRow(at: indexPath)  else {return}
     
-        switch mentions.type {
+        switch mentions {
         
-        case .hashtag, .userinfo:
+        case .hashtag(_,_), .user(_,_):
             
             guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
             {
@@ -153,7 +155,7 @@ class MentionsTableViewController: UITableViewController {
             tweetVC.searchText = cell.textLabel!.text!
             nav.pushViewController(tweetVC, animated: true)
        
-        case .url:
+        case .url(_,_):
             
             guard let url = URL(string: cell.textLabel!.text!) else {return}
             
@@ -164,7 +166,7 @@ class MentionsTableViewController: UITableViewController {
             }
             
             
-        case .image:
+        case .image(_,_):
             
             guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
             {

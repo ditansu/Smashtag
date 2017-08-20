@@ -17,7 +17,7 @@ enum MentionType {
 }
 
 
-struct TweetMentions  {
+struct _TweetMentions  {
     
     enum Mention {
         case image((url: URL, aspectRatio : Double))
@@ -47,7 +47,7 @@ typealias Title = String
 typealias ImageMentions = [(url: URL, aspectRatio : Double)]
 typealias TextMentions = [String]
 
-enum TweetMentions2 {
+enum TweetMentions {
 
     case image   (Title, ImageMentions)
     case hashtag (Title, TextMentions)
@@ -56,7 +56,7 @@ enum TweetMentions2 {
 
 }
 
-extension TweetMentions2 {
+extension TweetMentions {
 
     var count : Int {
         
@@ -80,7 +80,15 @@ extension TweetMentions2 {
         
     }
     
-    
+//    subscript(index : Int) -> String {
+//        mutating get {
+//            load()
+//            guard !recentQueries.isEmpty else {return ""}
+//            return recentQueries[recentQueries.count - 1 - index]
+//        }
+//        
+//    }
+
 
 
 }

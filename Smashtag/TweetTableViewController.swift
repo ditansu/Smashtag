@@ -152,9 +152,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     //fill Model for MentionMVC 
     
-    func prepareTweetMentions2(tweet : Twitter.Tweet)-> [TweetMentions2] {
+    func prepareTweetMentions(tweet : Twitter.Tweet)-> [TweetMentions] {
         
-        var tweetMentions = [TweetMentions2]()
+        var tweetMentions = [TweetMentions]()
         
         if !tweet.media.isEmpty {
             tweetMentions.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
@@ -176,55 +176,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     
-    
-    
-    
-    func prepareTweetMentions(tweet : Twitter.Tweet)-> [TweetMentions] {
-        
-        var tweetMentions = [TweetMentions]()
-        
-        if !tweet.media.isEmpty {
-            tweetMentions.append(
-                TweetMentions(
-                       title: "Изображения",
-                        type: MentionType.image,
-                    mentions: tweet.media.map{ TweetMentions.Mention.image((url: $0.url , aspectRatio: $0.aspectRatio))}
-                )
-            )
-        }
-        
-        if !tweet.hashtags.isEmpty {
-            tweetMentions.append(
-                TweetMentions(
-                       title: "Хештеги",
-                        type: MentionType.hashtag,
-                    mentions: tweet.hashtags.map{ TweetMentions.Mention.text($0.keyword)}
-                )
-            )
-        }
-        
-        if !tweet.urls.isEmpty {
-            tweetMentions.append(
-                TweetMentions(
-                       title: "Ссылки",
-                        type: MentionType.url,
-                    mentions: tweet.urls.map{ TweetMentions.Mention.text($0.keyword)}
-                )
-            )
-        }
-        
-        if !tweet.userMentions.isEmpty {
-            tweetMentions.append(
-                TweetMentions(
-                       title: "Пользователи",
-                        type: MentionType.userinfo,
-                    mentions: tweet.userMentions.map{ TweetMentions.Mention.text($0.keyword)}
-                )
-            )
-        }
-        
-        return tweetMentions
-    }
+
     
     private struct slaveMVC {
         static let MentionMVC = "MentionMVC"
