@@ -46,12 +46,22 @@ class MentionsTableViewController: UITableViewController {
         return tweetMentions![section].title
     }
     
+    
+    private struct Cells {
+        
+        static let image    =   "ImageCell"
+        static let user     =   "UserCell"
+        static let hashtag  =   "HashtagCell"
+        static let url      =   "UrlCell"
+        
+    }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch tweetMentions![indexPath.section] {
-            
         case .image(_, let images):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cells.image, for: indexPath)
             let url = images[indexPath.row].url
             if let imageCell = cell as? ImageMentionTableViewCell {
                 if  imageCell.imageURL != url {
@@ -59,14 +69,21 @@ class MentionsTableViewController: UITableViewController {
                 }
             }
             return cell
-            
-        case .hashtag(_, let mentions), .url(_, let mentions), .user(_, let mentions)  :
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Textcell", for: indexPath)
+        case .hashtag(_, let mentions):
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cells.hashtag, for: indexPath)
             cell.textLabel?.text = mentions[indexPath.row]
             return cell
-            
+        case .url(_, let mentions):
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cells.url, for: indexPath)
+            cell.textLabel?.text = mentions[indexPath.row]
+            return cell
+        case  .user(_, let mentions):
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cells.user, for: indexPath)
+            cell.textLabel?.text = mentions[indexPath.row]
+            return cell
         }
+        
+        
     }
     
     var sectionHeaderHeight : CGFloat = 28.0
@@ -117,69 +134,85 @@ class MentionsTableViewController: UITableViewController {
     // MARK: - Navigation
     
     
-    private struct slaveMVC {
-        static let tweetFindMVC = "TweetFindMVC"
-        static let imageShowMVC = "ImageShowMVC"
-    }
-
-    
-    
-    // MARK: - Navigation
-    // by didSelectRowAt and navigationController.pushViewController
-    // for each kind of content:
-    // .hashtag, .user - search mention in new MVC
-    // .url - open Safari with url
-    // .image - open ScrollView MVC for zooming and scroll image
-
-    
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let mentions = tweetMentions?[indexPath.section] else {return}
-        guard let nav = self.navigationController else {return}
-        guard let cell = tableView.cellForRow(at: indexPath)  else {return}
-    
-        switch mentions {
-        
-        case .hashtag(_,_), .user(_,_):
-            
-            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
-            {
-                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
-                return
-            }
-            
-            var recentSearchs = RecentQueries()
-            recentSearchs.appendUnique(mention: cell.textLabel!.text!)
-        
-            tweetVC.searchText = cell.textLabel!.text!
-            nav.pushViewController(tweetVC, animated: true)
-       
-        case .url(_,_):
-            
-            guard let url = URL(string: cell.textLabel!.text!) else {return}
-            
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-            
-            
-        case .image(_,_):
-            
-            guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
-            {
-                print("ooops! we can't load next MVC:  \(slaveMVC.imageShowMVC)")
-                return
-            }
-            
-            guard let imageCell = cell as? ImageMentionTableViewCell else {return}
-            imageVC.image = imageCell.imageMentionView.image
-            nav.pushViewController(imageVC, animated: true)
-        }
-        
-    }
+    //    private struct slaveMVC {
+    //        static let tweetFindMVC = "TweetFindMVC"
+    //        static let imageShowMVC = "ImageShowMVC"
+    //    }
+    //
+    //
+    //
+    //    // MARK: - Navigation
+    //    // by didSelectRowAt and navigationController.pushViewController
+    //    // for each kind of content:
+    //    // .hashtag, .user - search mention in new MVC
+    //    // .url - open Safari with url
+    //    // .image - open ScrollView MVC for zooming and scroll image
+    //
+    //
+    //
+    //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //
+    //        guard let mentions = tweetMentions?[indexPath.section] else {return}
+    //        guard let nav = self.navigationController else {return}
+    //        guard let cell = tableView.cellForRow(at: indexPath)  else {return}
+    //
+    //        switch mentions {
+    //
+    //        case .hashtag(_,_):
+    //
+    //            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
+    //            {
+    //                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
+    //                return
+    //            }
+    //
+    //            var recentSearchs = RecentQueries()
+    //            recentSearchs.appendUnique(mention: cell.textLabel!.text!)
+    //
+    //            tweetVC.searchText = cell.textLabel!.text!
+    //            nav.pushViewController(tweetVC, animated: true)
+    //
+    //        case .user(_,_):
+    //
+    //            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
+    //            {
+    //                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
+    //                return
+    //            }
+    //
+    //            var recentSearchs = RecentQueries()
+    //            let user = cell.textLabel!.text!
+    //            recentSearchs.appendUnique(mention: user + " OR from:\(user)" )
+    //
+    //            tweetVC.searchText = cell.textLabel!.text!
+    //            nav.pushViewController(tweetVC, animated: true)
+    //
+    //
+    //        case .url(_,_):
+    //
+    //            guard let url = URL(string: cell.textLabel!.text!) else {return}
+    //
+    //            if #available(iOS 10.0, *) {
+    //                UIApplication.shared.open(url)
+    //            } else {
+    //                UIApplication.shared.openURL(url)
+    //            }
+    //
+    //
+    //        case .image(_,_):
+    //
+    //            guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
+    //            {
+    //                print("ooops! we can't load next MVC:  \(slaveMVC.imageShowMVC)")
+    //                return
+    //            }
+    //
+    //            guard let imageCell = cell as? ImageMentionTableViewCell else {return}
+    //            imageVC.image = imageCell.imageMentionView.image
+    //            nav.pushViewController(imageVC, animated: true)
+    //        }
+    //
+    //    }
     
     
     /*
@@ -217,22 +250,72 @@ class MentionsTableViewController: UITableViewController {
      }
      */
     
-
+    
+    private struct Segues {
+        
+        static let image    =  "ImageSegue"
+        static let url      =  "UrlSegue"
+        static let user     =  "UserSegue"
+        static let hashtag  =  "HashtagSegue"
+        
+    }
     
     
-//     // In a storyboard-based application, you will often want to do a little preparation before navigation
-//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//     // Get the new view controller using segue.destinationViewController.
-//     // Pass the selected object to the new view controller.
-//     
-//     }
-//    
-//    
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//       
-//        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
-//        
-//    }
-//    
+    
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case Segues.image:
+            guard let imageVC = segue.destination.contents as? ImageShowControl else
+            {
+                print("ooops! we can't do segue:  \(Segues.image)")
+                return
+            }
+            
+            guard let cell = sender as? ImageMentionTableViewCell else {return}
+            imageVC.image = cell.imageMentionView.image
+            imageVC.title = "Изорбражение"
+        case Segues.user:
+            guard let cell = sender as? UITableViewCell else {return}
+            var recentSearchs = RecentQueries()
+            let user = cell.textLabel!.text!
+            recentSearchs.appendUnique(mention: user + " OR from:\(user)" )
+        case Segues.hashtag:
+            guard let cell = sender as? UITableViewCell else {return}
+            var recentSearchs = RecentQueries()
+            let hashtag = cell.textLabel!.text!
+            recentSearchs.appendUnique(mention: hashtag)
+        case Segues.url:
+            guard let SafariVC = segue.destination.contents as?  SafariViewController else
+            {
+                print("ooops! we can't do segue:  \(Segues.image)")
+                return
+            }
+            
+            guard let cell = sender as? UITableViewCell else {return}
+            //SafariVC.url =
+            SafariVC.title = cell.textLabel!.text!
+            
+        default: break
+            
+        }
+        
+        
+        
+    }
+    //
+    //    
+    //    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    //       
+    //        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
+    //        
+    //    }
+    //    
     
 }

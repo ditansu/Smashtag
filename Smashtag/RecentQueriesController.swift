@@ -71,7 +71,9 @@ extension RecentQueriesController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       // print ("DEB2: recentQueries \(recentQueries.count)")
         return recentQueries.count
+        
     }
     
     

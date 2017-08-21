@@ -126,6 +126,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
+    @IBOutlet var backToRootView: UIBarButtonItem!
     
     // MARK: View Controller Lifecycle
     
@@ -135,14 +136,22 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         searchText = recentSearch
-        //searchText = "#stanford"
+        
+        
+        
+        
     }
+    
+    @IBAction func backToRootViewAction(_ sender: UIBarButtonItem) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searchText = recentSearch
-        // searchTextField.text = recentSearch
+        backToRootView.isEnabled = self.navigationController!.viewControllers.count > 2
     }
     
     
@@ -169,7 +178,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
         
         if !tweet.userMentions.isEmpty {
-            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword}))
+            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword} + [tweet.user.screenName]))
         }
         
         return tweetMentions

@@ -12,7 +12,7 @@ import Foundation
 
 struct RecentQueries {
     
-    private let key  = "RecentMentions"
+    private let key  = "RecentQueries2"
     private let maxCount = 100
     fileprivate var recentQueries = [String]()
     private let ud = UserDefaults.standard
@@ -20,12 +20,12 @@ struct RecentQueries {
     private func save(){
         guard !recentQueries.isEmpty else {return}
         ud.set(recentQueries,forKey: key)
-        print(" DEB1: save arr: \(recentQueries)")
+       // print(" DEB1: save arr: \(recentQueries)")
     }
     
     fileprivate mutating func load(){
         recentQueries = ud.stringArray(forKey: key) ?? []
-        print("DEB1: load arr: \(recentQueries)")
+       // print("DEB1: load arr: \(recentQueries)")
     }
     
     init() {
@@ -38,8 +38,8 @@ struct RecentQueries {
             recentQueries = recentQueries.filter{ $0 != mention }
         }
         
-        if recentQueries.count > maxCount {
-            _ = recentQueries.dropFirst()
+        if recentQueries.count >= maxCount {
+            recentQueries = recentQueries.dropFirst().map{ $0 }
         }
         
         recentQueries.append(mention)
@@ -52,7 +52,12 @@ struct RecentQueries {
 
 extension RecentQueries {
     
-    var count : Int { return recentQueries.count  }
+    var count : Int {
+        mutating get {
+            load()
+            return recentQueries.count
+        }
+    }
     
     
     subscript(index : Int) -> String {
