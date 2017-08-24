@@ -83,5 +83,28 @@ extension RecentQueriesController : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
   
+    
+// Delete row at swipe
+
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let result = UITableViewRowAction(
+                style: UITableViewRowActionStyle.normal,
+                title: "удалить") { _ in
+                    guard let cell = tableView.cellForRow(at: indexPath) else {return}
+                    print("cell.textLabel!.text!: \(cell.textLabel!.text!)")
+                    self.recentQueries.remove(cell.textLabel!.text!)
+                    tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+                }
+        
+        result.backgroundColor = UIColor.red
+       
+        
+        return [result]
+    }
+    
+    
+    
 
 }

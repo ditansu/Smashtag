@@ -131,88 +131,8 @@ class MentionsTableViewController: UITableViewController {
     }
     
     
-    // MARK: - Navigation
+   
     
-    
-    //    private struct slaveMVC {
-    //        static let tweetFindMVC = "TweetFindMVC"
-    //        static let imageShowMVC = "ImageShowMVC"
-    //    }
-    //
-    //
-    //
-    //    // MARK: - Navigation
-    //    // by didSelectRowAt and navigationController.pushViewController
-    //    // for each kind of content:
-    //    // .hashtag, .user - search mention in new MVC
-    //    // .url - open Safari with url
-    //    // .image - open ScrollView MVC for zooming and scroll image
-    //
-    //
-    //
-    //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //        guard let mentions = tweetMentions?[indexPath.section] else {return}
-    //        guard let nav = self.navigationController else {return}
-    //        guard let cell = tableView.cellForRow(at: indexPath)  else {return}
-    //
-    //        switch mentions {
-    //
-    //        case .hashtag(_,_):
-    //
-    //            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
-    //            {
-    //                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
-    //                return
-    //            }
-    //
-    //            var recentSearchs = RecentQueries()
-    //            recentSearchs.appendUnique(mention: cell.textLabel!.text!)
-    //
-    //            tweetVC.searchText = cell.textLabel!.text!
-    //            nav.pushViewController(tweetVC, animated: true)
-    //
-    //        case .user(_,_):
-    //
-    //            guard let tweetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.tweetFindMVC) as? TweetTableViewController else
-    //            {
-    //                print("ooops! we can't load next MVC: \(slaveMVC.tweetFindMVC)")
-    //                return
-    //            }
-    //
-    //            var recentSearchs = RecentQueries()
-    //            let user = cell.textLabel!.text!
-    //            recentSearchs.appendUnique(mention: user + " OR from:\(user)" )
-    //
-    //            tweetVC.searchText = cell.textLabel!.text!
-    //            nav.pushViewController(tweetVC, animated: true)
-    //
-    //
-    //        case .url(_,_):
-    //
-    //            guard let url = URL(string: cell.textLabel!.text!) else {return}
-    //
-    //            if #available(iOS 10.0, *) {
-    //                UIApplication.shared.open(url)
-    //            } else {
-    //                UIApplication.shared.openURL(url)
-    //            }
-    //
-    //
-    //        case .image(_,_):
-    //
-    //            guard let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: slaveMVC.imageShowMVC) as? ImageShowControl else
-    //            {
-    //                print("ooops! we can't load next MVC:  \(slaveMVC.imageShowMVC)")
-    //                return
-    //            }
-    //
-    //            guard let imageCell = cell as? ImageMentionTableViewCell else {return}
-    //            imageVC.image = imageCell.imageMentionView.image
-    //            nav.pushViewController(imageVC, animated: true)
-    //        }
-    //
-    //    }
     
     
     /*
@@ -250,6 +170,7 @@ class MentionsTableViewController: UITableViewController {
      }
      */
     
+     // MARK: - Navigation
     
     private struct Segues {
         
@@ -294,12 +215,12 @@ class MentionsTableViewController: UITableViewController {
         case Segues.url:
             guard let SafariVC = segue.destination.contents as?  SafariViewController else
             {
-                print("ooops! we can't do segue:  \(Segues.image)")
+                print("ooops! we can't do segue:  \(Segues.url)")
                 return
             }
             
             guard let cell = sender as? UITableViewCell else {return}
-            //SafariVC.url =
+            SafariVC.URL = URL(string: cell.textLabel!.text!)
             SafariVC.title = cell.textLabel!.text!
             
         default: break

@@ -12,12 +12,12 @@ import Foundation
 
 struct RecentQueries {
     
-    private let key  = "RecentQueries2"
+    private let key  = "RecentQueries0"
     private let maxCount = 100
     fileprivate var recentQueries = [String]()
     private let ud = UserDefaults.standard
     
-    private func save(){
+    fileprivate func save(){
         guard !recentQueries.isEmpty else {return}
         ud.set(recentQueries,forKey: key)
        // print(" DEB1: save arr: \(recentQueries)")
@@ -51,6 +51,19 @@ struct RecentQueries {
 }
 
 extension RecentQueries {
+    
+    mutating func remove(_ mention : String){
+       
+        load()
+        //print("DEB1: before remove: [\(mention)]: \(recentQueries)")
+        if recentQueries.contains(mention) {
+            recentQueries = recentQueries.filter{ $0 != mention }
+        }
+        //print("DEB1: after remove: [\(mention)]: \(recentQueries)")
+        save()
+    
+    }
+    
     
     var count : Int {
         mutating get {
