@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-typealias images = [(url: URL, aspectRatio : Double)]
+typealias Images = [(url: URL, aspectRatio : Double)]
 
 
 //struct ImagesByURLs {

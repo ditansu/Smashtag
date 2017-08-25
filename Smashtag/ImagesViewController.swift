@@ -10,6 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
+
 class ImagesViewController: UICollectionViewController {
 
     //private let imagesCache = NSCache<URL,UImage>()
@@ -17,7 +18,7 @@ class ImagesViewController: UICollectionViewController {
     
     // Model 
     
-    
+     let images =  Images()
     
     
     
@@ -48,7 +49,7 @@ class ImagesViewController: UICollectionViewController {
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
