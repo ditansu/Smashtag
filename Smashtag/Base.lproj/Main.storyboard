@@ -15,7 +15,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="TweetFindMVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jfx-WO-VJq" customClass="TweetTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="89" sectionHeaderHeight="28" sectionFooterHeight="28" id="Y1M-t4-vU2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <textField key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Поиск по Твитерру " textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="qgj-Le-zgN">
@@ -236,11 +236,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H2I-A3-LfU">
-                                <rect key="frame" x="0.0" y="74.5" width="320" height="405.5"/>
+                                <rect key="frame" x="0.0" y="30" width="320" height="494"/>
                                 <color key="backgroundColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="USd-Pe-zqr">
-                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <items>
                                     <barButtonItem title="&lt;" id="ylR-Hj-loA">
                                         <connections>
@@ -256,7 +256,7 @@
                                 </items>
                             </toolbar>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HMX-tt-37w">
-                                <rect key="frame" x="0.0" y="64.5" width="320" height="2"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="2"/>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -454,6 +454,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="epd-xp-RWD" id="7r5-2q-sCu"/>
+                                    <segue destination="jCx-Yv-osi" kind="show" identifier="MentionMVC2" id="kS1-yB-DtX"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -462,7 +463,7 @@
                             <outlet property="delegate" destination="QDJ-Os-Jje" id="ARb-Bc-vPV"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Images" image="Images" id="yhn-Qy-auB"/>
+                    <tabBarItem key="tabBarItem" title="Images" image="Images" selectedImage="Images" id="yhn-Qy-auB"/>
                     <navigationItem key="navigationItem" id="LJ8-3W-1by"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vwa-dI-Kbv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -514,6 +515,7 @@
         <image name="Images" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="kge-vy-z2o"/>
         <segue reference="LDL-xE-jj7"/>
     </inferredMetricsTieBreakers>
 </document>

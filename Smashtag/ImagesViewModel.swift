@@ -8,9 +8,10 @@
 
 import Foundation
 import UIKit
+import Twitter
 
 
-typealias Images = [(url: URL, aspectRatio : Double)]
+typealias Images = [(tweet: Twitter.Tweet, url: URL, aspectRatio : Double)]
 
 
 //struct ImagesByURLs {

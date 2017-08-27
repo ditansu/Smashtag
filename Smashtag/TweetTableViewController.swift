@@ -9,6 +9,13 @@
 import UIKit
 import Twitter
 
+//extension Twitter.Tweet : Sequence {
+//
+//
+//}
+
+
+
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     //MARK: MODEL
@@ -16,6 +23,16 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     // each sub-Array of Tweets
     private var tweets = [Array<Twitter.Tweet>]()
+    
+    
+    //public part for ImagesMVP
+    var tweetImages : Images {
+        return tweets.flatMap{$0}.flatMap{
+            tweet in tweet.media.map {
+                (tweet, $0.url, $0.aspectRatio)
+            }
+        }
+    }
     
     // public part of our Model
     // when this is set
@@ -240,6 +257,34 @@ extension UIViewController {
     }
 }
 
+extension Twitter.Tweet {
+
+    func getTweetMentions() -> [TweetMentions] {
+       
+        var tweetMentions = [TweetMentions]()
+        let tweet = self 
+        
+        if !tweet.media.isEmpty {
+            tweetMentions.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
+        }
+        
+        if !tweet.hashtags.isEmpty {
+            tweetMentions.append(.hashtag("Хештеги", tweet.hashtags.map{$0.keyword}))
+        }
+        
+        if !tweet.urls.isEmpty {
+            tweetMentions.append(.url("Ссылки", tweet.urls.map{$0.keyword}))
+        }
+        
+        if !tweet.userMentions.isEmpty {
+            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword} + [tweet.user.screenName]))
+        }
+        
+        return tweetMentions
+    
+    }
+    
+}
 
 
 
