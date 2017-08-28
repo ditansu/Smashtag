@@ -444,16 +444,23 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epd-xp-RWD">
                                             <rect key="frame" x="0.0" y="0.0" width="127" height="124"/>
                                         </imageView>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2t8-rc-Jsd">
+                                            <rect key="frame" x="54" y="52" width="20" height="20"/>
+                                            <color key="color" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                 </view>
                                 <constraints>
                                     <constraint firstItem="epd-xp-RWD" firstAttribute="leading" secondItem="nqB-rB-dAK" secondAttribute="leading" id="2eo-V7-tcS"/>
+                                    <constraint firstItem="2t8-rc-Jsd" firstAttribute="centerX" secondItem="epd-xp-RWD" secondAttribute="centerX" id="7WZ-uW-QiX"/>
                                     <constraint firstItem="epd-xp-RWD" firstAttribute="top" secondItem="nqB-rB-dAK" secondAttribute="top" id="KNf-fT-eYN"/>
                                     <constraint firstAttribute="bottom" secondItem="epd-xp-RWD" secondAttribute="bottom" id="Kd5-FC-mNQ"/>
                                     <constraint firstAttribute="trailing" secondItem="epd-xp-RWD" secondAttribute="trailing" id="cqo-ml-abu"/>
+                                    <constraint firstItem="2t8-rc-Jsd" firstAttribute="centerY" secondItem="epd-xp-RWD" secondAttribute="centerY" id="m9Z-r8-7Ce"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="epd-xp-RWD" id="7r5-2q-sCu"/>
+                                    <outlet property="spinner" destination="2t8-rc-Jsd" id="Ueo-U4-Gjo"/>
                                     <segue destination="jCx-Yv-osi" kind="show" identifier="MentionMVC2" id="kS1-yB-DtX"/>
                                 </connections>
                             </collectionViewCell>
@@ -515,7 +522,7 @@
         <image name="Images" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kge-vy-z2o"/>
+        <segue reference="kS1-yB-DtX"/>
         <segue reference="LDL-xE-jj7"/>
     </inferredMetricsTieBreakers>
 </document>

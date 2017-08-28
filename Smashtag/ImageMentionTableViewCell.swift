@@ -25,7 +25,7 @@ class ImageMentionTableViewCell: UITableViewCell {
             if let imageData = try? Data(contentsOf: curretImageURL) {
                 DispatchQueue.main.async { [weak self] in
                     //check a situation after dreams ;
-                    guard curretImageURL == self!.imageURL else { return }
+                    guard let url = self!.imageURL, url == curretImageURL else { return }
                     self!.imageMentionView.image = UIImage(data: imageData)
                 }
             }

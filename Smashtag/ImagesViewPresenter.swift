@@ -7,14 +7,15 @@
 //
 
 import Foundation
+import UIKit
 
 
+protocol ImageViewProtocol {
 
-protocol ImageView {
-
+    var image : UIImage? { set get }
+    func startLoad()
+    func stopLoad()
     
-    
-
 }
 
 

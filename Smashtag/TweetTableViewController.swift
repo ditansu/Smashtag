@@ -222,7 +222,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             guard let mentionVC = (segue.destination.contents as? MentionsTableViewController),
                 let cell = sender as?  TweetTableViewCell,
                 let tweet = cell.tweet  else { return }
-            mentionVC.tweetMentions = prepareTweetMentions(tweet: tweet)
+            mentionVC.tweetMentions = tweet.tweetMentions  //prepareTweetMentions(tweet: tweet)
             mentionVC.title = tweet.user.screenName
             
         //case slaveMVC.someSlaveMVC :
@@ -259,28 +259,28 @@ extension UIViewController {
 
 extension Twitter.Tweet {
 
-    func getTweetMentions() -> [TweetMentions] {
+    var tweetMentions : [TweetMentions] {
        
-        var tweetMentions = [TweetMentions]()
+        var result = [TweetMentions]()
         let tweet = self 
         
         if !tweet.media.isEmpty {
-            tweetMentions.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
+            result.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
         }
         
         if !tweet.hashtags.isEmpty {
-            tweetMentions.append(.hashtag("Хештеги", tweet.hashtags.map{$0.keyword}))
+            result.append(.hashtag("Хештеги", tweet.hashtags.map{$0.keyword}))
         }
         
         if !tweet.urls.isEmpty {
-            tweetMentions.append(.url("Ссылки", tweet.urls.map{$0.keyword}))
+            result.append(.url("Ссылки", tweet.urls.map{$0.keyword}))
         }
         
         if !tweet.userMentions.isEmpty {
-            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword} + [tweet.user.screenName]))
+            result.append(.user("Пользователи", tweet.userMentions.map{$0.keyword} + [tweet.user.screenName]))
         }
         
-        return tweetMentions
+        return result
     
     }
     

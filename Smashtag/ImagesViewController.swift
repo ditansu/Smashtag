@@ -19,6 +19,8 @@ class ImagesViewController: UICollectionViewController {
     // Model 
     
     var images = Images()
+    let cacheImage = NSCache<NSString,AnyObject>()
+    
     
     
     fileprivate let sectionInserts = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
@@ -46,14 +48,14 @@ class ImagesViewController: UICollectionViewController {
         
         images = tweetFindVC.tweetImages
         self.collectionView?.reloadData()
-        print ("DEB1: images load: [\(images)]")
+        //print ("DEB1: images load: [\(images)]")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         images = Images()
-        print ("DEB1: images deleted: [\(images)]")
+        //print ("DEB1: images deleted: [\(images)]")
     }
 
     
@@ -76,8 +78,10 @@ class ImagesViewController: UICollectionViewController {
             
             guard let mentionVC = (segue.destination.contents as? MentionsTableViewController),
                 let cell = sender as?  ImageViewCell,
-                let tweet = images[cell.].tweet  else { return }
-            mentionVC.tweetMentions = tweet.getTweetMentions() //prepareTweetMentions(tweet: tweet)
+                let indexPath = self.collectionView?.indexPath(for: cell) else { return }
+           
+            let tweet = images[indexPath.row].tweet
+            mentionVC.tweetMentions = tweet.tweetMentions //prepareTweetMentions(tweet: tweet)
             mentionVC.title = tweet.user.screenName
             
         //case slaveMVC.someSlaveMVC :
@@ -111,14 +115,31 @@ class ImagesViewController: UICollectionViewController {
             
             let url = images[indexPath.row].url
             
-            if let image = try? Data(contentsOf: url) {
-                imageCell.imageView.image = UIImage(data: image)
+            if let cachedImage = cacheImage.object(forKey: url.absoluteString as NSString) as? UIImage {
+                imageCell.imageView.image = cachedImage
+                print("DEB2: load from cashe: \(url)")
+                return cell
             }
+            
+            if imageCell.imageURL != url {
+                imageCell.saveToCache = saveImageToCache(url:image:cost:)
+                imageCell.imageURL = url
+            }
+            
+            
+//            if let image = try? Data(contentsOf: url) {
+//                imageCell.imageView.image = UIImage(data: image)
+//            }
             
         }
         return cell
     }
 
+    func saveImageToCache(url : URL, image : UIImage, cost : Int ) {
+        cacheImage.setObject(image, forKey: url.absoluteString as NSString, cost: cost)
+        print("DEB2: save to cashe: \(url) with cost: \(cost)")
+    }
+    
     // MARK: UICollectionViewDelegate
 
     

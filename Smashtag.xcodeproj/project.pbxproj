@@ -127,20 +127,12 @@
 		021549731F4DAE9F005738DC /* ImagesMVP */ = {
 			isa = PBXGroup;
 			children = (
-				0215497B1F4F15E4005738DC /* View */,
+				021549741F4DAF03005738DC /* ImagesViewController.swift */,
+				021549761F4DBC14005738DC /* ImageViewCell.swift */,
 				021549781F4DCCC6005738DC /* ImagesViewModel.swift */,
 				0215497C1F4F1633005738DC /* ImagesViewPresenter.swift */,
 			);
 			name = ImagesMVP;
-			sourceTree = "<group>";
-		};
-		0215497B1F4F15E4005738DC /* View */ = {
-			isa = PBXGroup;
-			children = (
-				021549741F4DAF03005738DC /* ImagesViewController.swift */,
-				021549761F4DBC14005738DC /* ImageViewCell.swift */,
-			);
-			name = View;
 			sourceTree = "<group>";
 		};
 		02685B3E1F458F9200A188E1 /* TabBarMVCs */ = {
