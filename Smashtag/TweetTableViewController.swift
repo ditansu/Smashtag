@@ -22,17 +22,10 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     // each sub-Array of Tweets
-    private var tweets = [Array<Twitter.Tweet>]()
+    fileprivate var tweets = [Array<Twitter.Tweet>]()
     
     
-    //public part for ImagesMVP
-    var tweetImages : Images {
-        return tweets.flatMap{$0}.flatMap{
-            tweet in tweet.media.map {
-                (tweet, $0.url, $0.aspectRatio)
-            }
-        }
-    }
+   
     
     // public part of our Model
     // when this is set
@@ -82,7 +75,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-    // FILL TABLE
+    // GET TWEETS
     
     private var lastTwitterRequest: Twitter.Request?
     
@@ -93,14 +86,15 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         return nil
     }
     
+
+    // Core method
     private func searchForTweets() {
         if let request = lastTwitterRequest?.newer ?? twitterRequest() {
             lastTwitterRequest = request
             request.fetchTweets{ [weak self] newTweets in
                 DispatchQueue.main.async { // return to main queue for update UI (UITable)
                     if request == self?.lastTwitterRequest { // request is actually now?
-                        self?.tweets.insert(newTweets, at: 0)
-                        self?.tableView.insertSections([0], with: .fade)
+                        self?.insertTweets(newTweets)
                     }
                     self?.refreshControl?.endRefreshing() // REFRESHING
                 }
@@ -111,6 +105,11 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    
+    func  insertTweets(_ newTweets : [Twitter.Tweet]){
+        self.tweets.insert(newTweets, at: 0)
+        self.tableView.insertSections([0], with: .fade)
+    }
     
     
     // MARK: - UITableViewDataSource
@@ -225,6 +224,21 @@ extension UIViewController {
             }
         }
     }
+}
+
+
+
+extension TweetTableViewController {
+
+    var tweetImages : Images {
+        return tweets.flatMap{$0}.flatMap{
+            tweet in tweet.media.map {
+                (tweet, $0.url, $0.aspectRatio)
+            }
+        }
+    }
+
+
 }
 
 extension Twitter.Tweet {
