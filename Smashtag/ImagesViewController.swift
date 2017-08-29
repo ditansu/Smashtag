@@ -24,11 +24,13 @@ class ImagesViewController: UICollectionViewController {
     
     
     fileprivate let sectionInserts = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-    fileprivate let itemsPerRow : CGFloat = 2
+    fileprivate var itemsPerRow : CGFloat = 2
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//        cacheImage.delegate = self
+//        cacheImage.countLimit = 10
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -36,8 +38,42 @@ class ImagesViewController: UICollectionViewController {
         // self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        
+        let pinchHandler = #selector(self.changeScale(byReactionTo:))
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: pinchHandler)
+        self.collectionView?.addGestureRecognizer(pinchRecognizer)
+
+        let tapHandler   = #selector(self.setDefaultScale(byReactionTo:))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: tapHandler)
+        tapRecognizer.numberOfTapsRequired = 2
+        self.collectionView?.addGestureRecognizer(tapRecognizer)
+        
     }
     
+    
+    // MARK: - Gesture handler 
+    
+    func changeScale(byReactionTo pinchRecognizer: UIPinchGestureRecognizer) {
+    
+        switch pinchRecognizer.state {
+        case .changed, .ended:
+            itemsPerRow *= pinchRecognizer.scale
+            pinchRecognizer.scale = 1.0
+            self.collectionView?.reloadData()
+        default:
+            break
+        }
+    
+    }
+    
+    func setDefaultScale(byReactionTo pinchRecognizer: UITapGestureRecognizer) {
+        itemsPerRow = 2.0
+        self.collectionView?.reloadData()
+    }
+    
+    
+    
+    // MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,7 +81,7 @@ class ImagesViewController: UICollectionViewController {
         guard let tweetFindVC  = self.tabBarController?.viewControllers?[0].contents as? TweetTableViewController
             else {return}
         
-        
+        self.navigationItem.title = tweetFindVC.searchText
         images = tweetFindVC.tweetImages
         self.collectionView?.reloadData()
         //print ("DEB1: images load: [\(images)]")
@@ -117,7 +153,7 @@ class ImagesViewController: UICollectionViewController {
             
             if let cachedImage = cacheImage.object(forKey: url.absoluteString as NSString) as? UIImage {
                 imageCell.imageView.image = cachedImage
-                print("DEB2: load from cashe: \(url)")
+                //print("DEB2: load from cashe: \(url)")
                 return cell
             }
             
@@ -126,18 +162,18 @@ class ImagesViewController: UICollectionViewController {
                 imageCell.imageURL = url
             }
             
-            
-//            if let image = try? Data(contentsOf: url) {
-//                imageCell.imageView.image = UIImage(data: image)
-//            }
+
             
         }
         return cell
     }
 
     func saveImageToCache(url : URL, image : UIImage, cost : Int ) {
+        
+        // for gebug image.accessibilityIdentifier = url.absoluteString
         cacheImage.setObject(image, forKey: url.absoluteString as NSString, cost: cost)
-        print("DEB2: save to cashe: \(url) with cost: \(cost)")
+        
+        //print("DEB2: save to cashe: \(url) with cost: \(cost)")
     }
     
     // MARK: UICollectionViewDelegate
@@ -176,6 +212,23 @@ class ImagesViewController: UICollectionViewController {
     */
 
 }
+
+
+
+//extension ImagesViewController : NSCacheDelegate {
+//
+//
+//    func cache(_ cache: NSCache<AnyObject, AnyObject>, willEvictObject obj: Any) {
+//        
+//        print("DEB3:  delegate methode was began")
+//       
+//        guard let imgage = obj as? UIImage  else {return}
+//    
+//       print("DEB3: Will evict: \(String(describing: imgage.accessibilityIdentifier))")
+//    }
+//
+//}
+
 
 
 extension ImagesViewController : UICollectionViewDelegateFlowLayout {
