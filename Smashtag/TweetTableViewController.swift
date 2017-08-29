@@ -88,7 +88,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     private func twitterRequest() -> Twitter.Request? {
         if let query = searchText, !query.isEmpty {
-            return Twitter.Request(search: query, count: 100)
+            return Twitter.Request(search: "\(query) -filter:safe -filter:retweets", count: 100)
         }
         return nil
     }
@@ -173,36 +173,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     // MARK: - Navigation
-    
-    
-    
-    //fill Model for MentionMVC 
-    
-    func prepareTweetMentions(tweet : Twitter.Tweet)-> [TweetMentions] {
-        
-        var tweetMentions = [TweetMentions]()
-        
-        if !tweet.media.isEmpty {
-            tweetMentions.append(.image("Изображения", tweet.media.map{ (url: $0.url , aspectRatio: $0.aspectRatio)}))
-        }
-        
-        if !tweet.hashtags.isEmpty {
-            tweetMentions.append(.hashtag("Хештеги", tweet.hashtags.map{$0.keyword}))
-        }
-        
-        if !tweet.urls.isEmpty {
-             tweetMentions.append(.url("Ссылки", tweet.urls.map{$0.keyword}))
-        }
-        
-        if !tweet.userMentions.isEmpty {
-            tweetMentions.append(.user("Пользователи", tweet.userMentions.map{$0.keyword} + [tweet.user.screenName]))
-        }
-        
-        return tweetMentions
-    }
-
-    
-
     
     private struct slaveMVC {
         static let MentionMVC = "MentionMVC"

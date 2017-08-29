@@ -72,7 +72,7 @@ class TweetTableViewCell: UITableViewCell {
 
 
 
-extension Tweet {
+extension Twitter.Tweet {
 
    private func mentionsToNSRangesArray(mentions : [Twitter.Mention]) -> [NSRange]? {
         var result : [NSRange]? = []
