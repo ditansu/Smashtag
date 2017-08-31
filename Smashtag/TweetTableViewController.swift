@@ -175,6 +175,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     private struct slaveMVC {
         static let MentionMVC = "MentionMVC"
+       // static let AnalyzerMVC =  "TweetersMVC"
     }
 
     
@@ -194,7 +195,11 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             mentionVC.tweetMentions = tweet.tweetMentions  //prepareTweetMentions(tweet: tweet)
             mentionVC.title = tweet.user.screenName
             
-        //case slaveMVC.someSlaveMVC :
+        
+//        case slaveMVC.AnalyzerMVC:
+//            guard let analyzerMVC = (segue.destination.contents as? SmashTweetersTableViewController) else {return}
+//                analyzerMVC.mention = searchText
+//                analyzerMVC.container = container
         default:
             return
         }

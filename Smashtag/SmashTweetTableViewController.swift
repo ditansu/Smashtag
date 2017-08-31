@@ -41,24 +41,26 @@ class SmashTweetTableViewController: TweetTableViewController {
     private func printDatabaseStatistics() {
         if let context = container?.viewContext {
             
-            if Thread.isMainThread {
-                print("on main thread")
-            } else {
-                print("off main thread")
-            }
-            
-            
-            let request : NSFetchRequest<Tweet> = Tweet.fetchRequest()
-            
-            if let tweetCount = (try? context.fetch(request))?.count {
-                print("\(tweetCount) tweets")
-            }
-            
-            if let twitterCount = try? context.count(for: TwitterUser.fetchRequest()){
+            context.perform {
                 
-                 print("\(twitterCount) Twitter user ")
+                if Thread.isMainThread {
+                    print("on main thread")
+                } else {
+                    print("off main thread")
+                }
+                
+                
+                let request : NSFetchRequest<Tweet> = Tweet.fetchRequest()
+                
+                if let tweetCount = (try? context.fetch(request))?.count {
+                    print("\(tweetCount) tweets")
+                }
+                
+                if let twitterCount = try? context.count(for: TwitterUser.fetchRequest()){
+                    
+                    print("\(twitterCount) Twitter user ")
+                }
             }
-            
         }
         
     }
