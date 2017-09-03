@@ -65,4 +65,32 @@ class SmashTweetTableViewController: TweetTableViewController {
         
     }
     
+    // MARK: - Navigation
+    
+    private struct slaveMVC {
+        //static let MentionMVC = "MentionMVC"
+        static let AnalyzerMVC =  "TweetersMVC"
+    }
+    
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+            
+        case slaveMVC.AnalyzerMVC:
+            guard let analyzerMVC = (segue.destination.contents as? SmashTweetersTableViewController) else {return}
+            analyzerMVC.mention = searchText
+            analyzerMVC.container = container
+        default:
+            return
+        }
+        
+    }
+
+    
+    
 }

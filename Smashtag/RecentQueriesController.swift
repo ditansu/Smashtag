@@ -35,12 +35,14 @@ class RecentQueriesController: UIViewController {
     
     // MARK: - Navigation
 
-    private struct slaveMVC {
+    fileprivate struct slaveMVC {
         static let SearchMVC = "LoadRecentQueries"
+        static let MentionPopularityMVC = "MentionPopularityMVC"
     }
     
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -52,7 +54,14 @@ class RecentQueriesController: UIViewController {
             guard let cell = sender as? UITableViewCell else { return }
             let text = cell.textLabel?.text ?? ""
             recentQueries.appendUnique(mention: text)
-        //case slaveMVC.someSlaveMVC :
+        case slaveMVC.MentionPopularityMVC :
+            guard
+                  let mentionPopularityVC = (segue.destination.contents as? MentionPopularityTableViewController),
+                  let indexPath = (sender as? IndexPath),
+                  let cell = self.tableView.cellForRow(at: indexPath)
+            else {return}
+            
+            mentionPopularityVC.title = cell.textLabel?.text
         default:
             return
         }
@@ -82,7 +91,13 @@ extension RecentQueriesController : UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = recentQueries[indexPath.row]
         return cell
     }
-  
+
+    
+// Detail discolsure segue call
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        self.performSegue(withIdentifier: slaveMVC.MentionPopularityMVC, sender: indexPath)
+    }
     
 // Delete row at swipe
 

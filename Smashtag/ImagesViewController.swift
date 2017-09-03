@@ -146,7 +146,7 @@ class ImagesViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
-        if let imageCell = cell as? ImageViewCell {
+        if let imageCell = cell as? ImageViewCell, !images.isEmpty {
             // Configure the cell
             
             let url = images[indexPath.row].url
