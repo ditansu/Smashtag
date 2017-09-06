@@ -48,6 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //For  assigment #5
     
+    static var containerPopularity : NSPersistentContainer {
+        return (UIApplication.shared.delegate as! AppDelegate).persistentContainerPopularity
+    }
+    
+    static var contextPopularity : NSManagedObjectContext {
+        return containerPopularity.viewContext
+    }
+    
     lazy var persistentContainerPopularity : NSPersistentContainer  = {
         let container = NSPersistentContainer(name: "Popularity")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
