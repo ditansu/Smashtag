@@ -19,6 +19,7 @@ class SmashTweetTableViewController: TweetTableViewController {
     override func insertTweets(_ newTweets: [Twitter.Tweet]) {
         super.insertTweets(newTweets)
         updateDatabase(with: newTweets)
+        updateDatabasePopularity(with: newTweets)
     }
     
     private func updateDatabase(with tweets : [Twitter.Tweet]) {
@@ -32,11 +33,14 @@ class SmashTweetTableViewController: TweetTableViewController {
             }
             try? context.save()
             print("done load")
-            self?.printDatabaseStatistics()
+            self?.printDatabaseStatistics(to: container)
         }
         
         
     }
+    
+    
+    
  
     private func printDatabaseStatistics() {
         if let context = container?.viewContext {
@@ -44,16 +48,16 @@ class SmashTweetTableViewController: TweetTableViewController {
             context.perform {
                 
                 if Thread.isMainThread {
-                    print("on main thread")
+                    print("Popularity on main thread")
                 } else {
-                    print("off main thread")
+                    print("Popularity off main thread")
                 }
                 
                 
                 let request : NSFetchRequest<Tweet> = Tweet.fetchRequest()
                 
                 if let tweetCount = (try? context.fetch(request))?.count {
-                    print("\(tweetCount) tweets")
+                    print("Popularity: \(tweetCount) tweets")
                 }
                 
                 if let twitterCount = try? context.count(for: TwitterUser.fetchRequest()){

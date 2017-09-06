@@ -7,9 +7,22 @@
 //
 
 import UIKit
+import Twitter
+import CoreData
 
 class MentionPopularityTableViewController: UITableViewController {
 
+    
+    var searchTerm  : String? {
+    
+        didSet{
+         
+        
+        }
+    
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,11 +33,53 @@ class MentionPopularityTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    
+    
+    private func updateDatabasePopularity() {
+        
+        print("Popularity start load")
+        
+        var container = AppDelegate.containerPopularity
+        
+        container.performBackgroundTask{ [weak self] context in
+            
+            for twitterInfo in tweets {
+                _ = try? Tweet.findOrCreateTweet(matching: twitterInfo, in: context)
+            }
+            try? context.save()
+            print("Popularity done load")
+            self?.printDatabaseStatisticsForPopularity()
+        }
+        
+        
+    }
+    
+    private func printDatabaseStatisticsPopularit() {
+        if let context = AppDelegate.contextPopularity {
+            
+            context.perform {
+                
+                //MARK: - CHANGE THAT!!!
+                
+                //                let request : NSFetchRequest<Tweet> = Tweet.fetchRequest()
+                //
+                //                if let tweetCount = (try? context.fetch(request))?.count {
+                //                    print("Popularity: \(tweetCount) tweets")
+                //                }
+                //
+                //                if let twitterCount = try? context.count(for: TwitterUser.fetchRequest()){
+                //
+                //                    print("\(twitterCount) Twitter user ")
+                //                }
+                print("EMPTY")
+            }
+        }
+        
     }
 
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
