@@ -16,13 +16,20 @@ class MentionPopularityTableViewController: UITableViewController {
     var searchTerm  : String? {
     
         didSet{
-         
-        
+            lastTwitterRequest = nil // REFRESHING
+            tweets.removeAll()
+            tableView.reloadData()
+            searchForTweets()
+            title = searchTerm
         }
     
     }
     
     
+    
+    fileprivate var tweets = [Array<Twitter.Tweet>]()
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,29 +41,65 @@ class MentionPopularityTableViewController: UITableViewController {
     }
 
     
+    private var lastTwitterRequest: Twitter.Request?
+    
+    private func twitterRequest() -> Twitter.Request? {
+        if let query = searchTerm, !query.isEmpty {
+            return Twitter.Request(search: "\(query) -filter:safe -filter:retweets", count: 100)
+        }
+        return nil
+    }
     
     
-    private func updateDatabasePopularity() {
+    // Core method
+    private func searchForTweets() {
+        if let request = lastTwitterRequest?.newer ?? twitterRequest() {
+            lastTwitterRequest = request
+            request.fetchTweets{ [weak self] newTweets in
+                DispatchQueue.main.async { // return to main queue for update UI (UITable)
+                    if request == self?.lastTwitterRequest { // request is actually now?
+                        self?.insertTweets(newTweets)
+                    }
+                    self?.refreshControl?.endRefreshing() // REFRESHING
+                }
+                
+            }
+        } else {
+            self.refreshControl?.endRefreshing() // REFRESHING
+        }
+    }
+    
+    
+    func  insertTweets(_ newTweets : [Twitter.Tweet]){
+        self.tweets.insert(newTweets, at: 0)
+        self.tableView.insertSections([0], with: .fade)
+        updateDatabase(with: newTweets)
+    }
+    
+    
+    private func updateDatabase(with tweets : [Twitter.Tweet]) {
         
         print("Popularity start load")
         
-        var container = AppDelegate.containerPopularity
+        let container = AppDelegate.containerPopularity
         
         container.performBackgroundTask{ [weak self] context in
             
             for twitterInfo in tweets {
-                _ = try? Tweet.findOrCreateTweet(matching: twitterInfo, in: context)
+                _ = try? MentionTable.findOrCreateMention(matching: twitterInfo, in: context)
             }
+            
             try? context.save()
             print("Popularity done load")
-            self?.printDatabaseStatisticsForPopularity()
+            self?.printDatabaseStatistics()
         }
         
         
     }
     
-    private func printDatabaseStatisticsPopularit() {
-        if let context = AppDelegate.contextPopularity {
+    private func printDatabaseStatistics() {
+       
+            let context = AppDelegate.contextPopularity
             
             context.perform {
                 
@@ -74,7 +117,7 @@ class MentionPopularityTableViewController: UITableViewController {
                 //                }
                 print("EMPTY")
             }
-        }
+        
         
     }
 

@@ -19,7 +19,7 @@ class SmashTweetTableViewController: TweetTableViewController {
     override func insertTweets(_ newTweets: [Twitter.Tweet]) {
         super.insertTweets(newTweets)
         updateDatabase(with: newTweets)
-        updateDatabasePopularity(with: newTweets)
+
     }
     
     private func updateDatabase(with tweets : [Twitter.Tweet]) {
@@ -33,7 +33,7 @@ class SmashTweetTableViewController: TweetTableViewController {
             }
             try? context.save()
             print("done load")
-            self?.printDatabaseStatistics(to: container)
+            self?.printDatabaseStatistics()
         }
         
         
