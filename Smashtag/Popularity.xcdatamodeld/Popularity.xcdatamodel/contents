@@ -9,15 +9,15 @@
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="mentions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="tweets" inverseEntity="MentionTable" syncable="YES"/>
+        <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="tweets" inverseEntity="MentionTable" syncable="YES"/>
     </entity>
     <entity name="TwitterUserTable" representedClassName="TwitterUserTable" syncable="YES" codeGenerationType="class">
         <attribute name="handle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MentionTable" positionX="-378" positionY="-18" width="128" height="90"/>
-        <element name="TweetTable" positionX="-153" positionY="-18" width="128" height="105"/>
-        <element name="TwitterUserTable" positionX="-261" positionY="18" width="128" height="75"/>
+        <element name="MentionTable" positionX="-378" positionY="-9" width="128" height="90"/>
+        <element name="TweetTable" positionX="-153" positionY="-18" width="128" height="103"/>
+        <element name="TwitterUserTable" positionX="-378" positionY="132" width="128" height="75"/>
     </elements>
 </model>

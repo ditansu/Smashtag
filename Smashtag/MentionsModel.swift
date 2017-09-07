@@ -34,6 +34,7 @@ extension TweetMentions {
         }
     
     }
+
     
     var title : String {
         
@@ -42,6 +43,17 @@ extension TweetMentions {
             return title
         case .hashtag(let title, _), .url(let title, _), .user(let title, _):
             return title
+        }
+        
+    }
+    
+    var userOrHashtag : [String]? {
+       
+        switch self {
+        case .image, .url:
+            return nil 
+        case .hashtag(_, let mentions), .user(_, let mentions):
+            return mentions
         }
         
     }

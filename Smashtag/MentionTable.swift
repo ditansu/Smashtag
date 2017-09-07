@@ -12,17 +12,24 @@ import Twitter
 
 class MentionTable: NSManagedObject {
     
-    class func findOrCreateMention(matching twitterInfo : Twitter.Tweet, in context : NSManagedObjectContext)throws -> [MentionTable]
+    // to twitterInfo : Twitter.Tweet
+    
+    class func findOrCreateMention(matching tweetMention : String, in context : NSManagedObjectContext)throws -> MentionTable
     {
         let request : NSFetchRequest<MentionTable> = MentionTable.fetchRequest()
-        request.predicate = NSPredicate(format: "mention = %@", twitterInfo.identifier)
+        request.predicate = NSPredicate(format: "mention = %@", tweetMention)
         
         do {
             let matches = try context.fetch(request)
             
             if matches.count > 0 {
-                assert(matches.count == 1, "Tweet.findOrCreateTweet -- database inconsistency" )
-                return matches.first!
+                assert(matches.count == 1, "Mention.findOrCreateMention -- database inconsistency" )
+                
+                let mention = matches.first!
+                
+                mention.popularity += 1
+                
+                return mention
             }
             
         } catch {
@@ -31,15 +38,8 @@ class MentionTable: NSManagedObject {
         
         let mention = MentionTable(context : context)
         
-        
-        
-        //tweet.unique = twitterInfo.identifier
-        //tweet.text   = twitterInfo.text
-        //tweet.created = twitterInfo.created as NSDate
-        
-        //link one Twitter to many Tweets
-        // tweet.tweeter = try? TwitterUser.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
-        
+        mention.mention = tweetMention
+        mention.popularity = 1
         
         return mention
         

@@ -62,6 +62,7 @@ class RecentQueriesController: UIViewController {
             else {return}
             
             mentionPopularityVC.title = cell.textLabel?.text
+            mentionPopularityVC.searchTerm = cell.textLabel?.text
         default:
             return
         }

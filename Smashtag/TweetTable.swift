@@ -20,7 +20,7 @@ class TweetTable: NSManagedObject {
             let matches = try context.fetch(request)
             
             if matches.count > 0 {
-                assert(matches.count == 1, "Tweet.findOrCreateTweet -- database inconsistency" )
+                assert(matches.count == 1, "TweetTable.findOrCreateTweet -- database inconsistency" )
                 return matches.first!
             }
             
@@ -33,9 +33,14 @@ class TweetTable: NSManagedObject {
         tweet.text   = twitterInfo.text
         tweet.created = twitterInfo.created as NSDate
         
-        //link one Twitter to many Tweets
-        // tweet.tweeter = try? TwitterUser.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
-        
+        for mentions in twitterInfo.tweetMentions {
+            guard let userOrHashtag = mentions.userOrHashtag else { continue }
+            for mention in userOrHashtag {
+                if let mentionTable = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
+                    tweet.addToMentions(mentionTable)
+                }
+            }
+        }
         
         return tweet
         
