@@ -47,17 +47,11 @@ class SmashTweetTableViewController: TweetTableViewController {
             
             context.perform {
                 
-                if Thread.isMainThread {
-                    print("Popularity on main thread")
-                } else {
-                    print("Popularity off main thread")
-                }
-                
                 
                 let request : NSFetchRequest<Tweet> = Tweet.fetchRequest()
                 
                 if let tweetCount = (try? context.fetch(request))?.count {
-                    print("Popularity: \(tweetCount) tweets")
+                    print("\(tweetCount) tweets")
                 }
                 
                 if let twitterCount = try? context.count(for: TwitterUser.fetchRequest()){

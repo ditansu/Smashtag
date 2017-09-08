@@ -29,6 +29,7 @@ class TweetTable: NSManagedObject {
         }
         
         let tweet = TweetTable(context : context)
+        
         tweet.unique = twitterInfo.identifier
         tweet.text   = twitterInfo.text
         tweet.created = twitterInfo.created as NSDate
@@ -37,7 +38,7 @@ class TweetTable: NSManagedObject {
             guard let userOrHashtag = mentions.userOrHashtag else { continue }
             for mention in userOrHashtag {
                 if let mentionTable = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
-                    tweet.addToMentions(mentionTable)
+                    mentionTable.addToTweets(tweet)
                 }
             }
         }
