@@ -153,9 +153,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.rowHeight = UITableViewAutomaticDimension
         searchText = recentSearch
         
-        
-        
-        
     }
     
     @IBAction func backToRootViewAction(_ sender: UIBarButtonItem) {

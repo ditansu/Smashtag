@@ -78,19 +78,22 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
     
     func  insertTweets(_ newTweets : [Twitter.Tweet]){
+        
         self.tweets.insert(newTweets, at: 0)
+        print("DEB1: Load tweets: \(newTweets.count)")
         //self.tableView.insertSections([0], with: .fade)
-        updateDatabase(with: newTweets)
-        updateUI()
+        updateDatabase(with: newTweets){ [weak self] in self!.updateUI() }
+        
+        
     }
     
     
     
     // MARK:- Load tweets to  DB
     
-    private func updateDatabase(with tweets : [Twitter.Tweet]) {
+    private func updateDatabase(with tweets : [Twitter.Tweet], dataToTable: @escaping  (() -> Void) ) {
         
-        print("Popularity start load")
+        print("DEB1: Popularity start load")
         
         let container = AppDelegate.containerPopularity
         
@@ -101,8 +104,11 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
             }
             
             try? context.save()
-            print("Popularity done load")
+            print("DEB1: Popularity done load")
             self?.printDatabaseStatistics()
+            context.perform {
+                dataToTable()
+            }
         }
         
         
@@ -117,12 +123,12 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
             let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
             
             if let tweetCount = (try? context.fetch(request))?.count {
-                print("Popularity: \(tweetCount) tweets")
+                print("DEB1: Popularity: \(tweetCount) tweets")
             }
             
             if let mentionCount = try? context.count(for: MentionTable.fetchRequest()){
                 
-                print("Popularity: \(mentionCount) mentions ")
+                print("DEB1: Popularity: \(mentionCount) mentions ")
             }
            
         }
@@ -133,7 +139,7 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
     private func updateUI(){
         
-        print("start updateUI")
+        print("DEB1: start updateUI")
             
         guard searchTerm != nil else {return}
         
@@ -144,7 +150,7 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
         request.sortDescriptors = [
             NSSortDescriptor(
                 key: "popularity",
-                ascending: true
+                ascending: false
             ),
             NSSortDescriptor(
                 key: "mention",
@@ -152,7 +158,7 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
                 selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
             )]
         
-        request.predicate = NSPredicate(format: "popularity > %d", popularity)
+        request.predicate = NSPredicate(format: "popularity >= %d", popularity)
         
         fetchedResultsController = NSFetchedResultsController<MentionTable>(
             fetchRequest: request,

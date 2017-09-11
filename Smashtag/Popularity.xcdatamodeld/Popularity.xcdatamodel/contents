@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="MentionTable" representedClassName="MentionTable" syncable="YES" codeGenerationType="category">
+    <entity name="MentionTable" representedClassName=".MentionTable" syncable="YES" codeGenerationType="category">
         <attribute name="mention" attributeType="String" syncable="YES"/>
         <attribute name="popularity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TermTable" inverseName="mentions" inverseEntity="TermTable" syncable="YES"/>
         <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="mentions" inverseEntity="TweetTable" syncable="YES"/>
     </entity>
-    <entity name="TweetTable" representedClassName="TweetTable" syncable="YES" codeGenerationType="category">
+    <entity name="TermTable" representedClassName=".TermTable" syncable="YES" codeGenerationType="category">
+        <attribute name="term" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="terms" inverseEntity="MentionTable" syncable="YES"/>
+        <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="terms" inverseEntity="TweetTable" syncable="YES"/>
+    </entity>
+    <entity name="TweetTable" representedClassName=".TweetTable" syncable="YES" codeGenerationType="category">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="tweets" inverseEntity="MentionTable" syncable="YES"/>
+        <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TermTable" inverseName="tweets" inverseEntity="TermTable" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MentionTable" positionX="-378" positionY="-9" width="128" height="90"/>
-        <element name="TweetTable" positionX="-153" positionY="-18" width="128" height="105"/>
+        <element name="MentionTable" positionX="-4097" positionY="77" width="146" height="103"/>
+        <element name="TermTable" positionX="-4050" positionY="306" width="128" height="103"/>
+        <element name="TweetTable" positionX="-3861" positionY="125" width="128" height="118"/>
     </elements>
 </model>

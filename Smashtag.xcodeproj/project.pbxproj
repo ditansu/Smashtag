@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02120C3A1F65556B00E0AD89 /* TermTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02120C391F65556B00E0AD89 /* TermTable.swift */; };
 		021549721F4B2F43005738DC /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021549711F4B2F43005738DC /* SafariViewController.swift */; };
 		021549751F4DAF03005738DC /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021549741F4DAF03005738DC /* ImagesViewController.swift */; };
 		021549771F4DBC14005738DC /* ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021549761F4DBC14005738DC /* ImageViewCell.swift */; };
@@ -17,6 +18,7 @@
 		0296C5681F5AD6A80042AC02 /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */; };
 		0296C56A1F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0296C5691F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift */; };
 		0296C56D1F5C32990042AC02 /* MentionPopularityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0296C56C1F5C32990042AC02 /* MentionPopularityTableViewController.swift */; };
+		0296C5711F645FFB0042AC02 /* PopularityTweetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0296C5701F645FFB0042AC02 /* PopularityTweetTableViewController.swift */; };
 		029CBE751F49B06B00E6E51D /* RecentQueriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029CBE741F49B06B00E6E51D /* RecentQueriesController.swift */; };
 		029CBE771F49BDFD00E6E51D /* RecentQueriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029CBE761F49BDFD00E6E51D /* RecentQueriesModel.swift */; };
 		029F1B381F2F7579009AF9FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1B371F2F7579009AF9FE /* AppDelegate.swift */; };
@@ -74,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02120C391F65556B00E0AD89 /* TermTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTable.swift; sourceTree = "<group>"; };
 		021549711F4B2F43005738DC /* SafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
 		021549741F4DAF03005738DC /* ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
 		021549761F4DBC14005738DC /* ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCell.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 		0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
 		0296C5691F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmashTweetersTVCExtension.swift; sourceTree = "<group>"; };
 		0296C56C1F5C32990042AC02 /* MentionPopularityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionPopularityTableViewController.swift; sourceTree = "<group>"; };
+		0296C5701F645FFB0042AC02 /* PopularityTweetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularityTweetTableViewController.swift; sourceTree = "<group>"; };
 		029CBE741F49B06B00E6E51D /* RecentQueriesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentQueriesController.swift; sourceTree = "<group>"; };
 		029CBE761F49BDFD00E6E51D /* RecentQueriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentQueriesModel.swift; sourceTree = "<group>"; };
 		029F1B341F2F7579009AF9FE /* Smashtag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smashtag.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,11 +168,20 @@
 			children = (
 				0296C56C1F5C32990042AC02 /* MentionPopularityTableViewController.swift */,
 				02B7643F1F62C5B200EA2B7A /* MentionPopularityTVCExtension.swift */,
-				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
-				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
-				02A8A6521F6011A700D049F6 /* Popularity.xcdatamodeld */,
 			);
 			name = MentionPopularityMVC;
+			sourceTree = "<group>";
+		};
+		0296C5721F6460CE0042AC02 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				02A8A6521F6011A700D049F6 /* Popularity.xcdatamodeld */,
+				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
+				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
+				02120C391F65556B00E0AD89 /* TermTable.swift */,
+				0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		029CBE731F49AFFD00E6E51D /* RecentQueriesMVC */ = {
@@ -201,7 +214,8 @@
 		029F1B361F2F7579009AF9FE /* Smashtag */ = {
 			isa = PBXGroup;
 			children = (
-				0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */,
+				029F1B371F2F7579009AF9FE /* AppDelegate.swift */,
+				0296C5721F6460CE0042AC02 /* Core Data */,
 				02BD55661F55AF10003D7477 /* Lecture10MVC */,
 				029F1B7F1F337271009AF9FE /* TweetFindMVC */,
 				0296C56B1F5C30750042AC02 /* MentionPopularityMVC */,
@@ -242,7 +256,6 @@
 				029F1B431F2F7579009AF9FE /* Info.plist */,
 				029F1B401F2F7579009AF9FE /* LaunchScreen.storyboard */,
 				029F1B3E1F2F7579009AF9FE /* Assets.xcassets */,
-				029F1B371F2F7579009AF9FE /* AppDelegate.swift */,
 			);
 			name = "Supporting files";
 			sourceTree = "<group>";
@@ -250,6 +263,7 @@
 		029F1B7F1F337271009AF9FE /* TweetFindMVC */ = {
 			isa = PBXGroup;
 			children = (
+				0296C5701F645FFB0042AC02 /* PopularityTweetTableViewController.swift */,
 				029F1B661F2F76A7009AF9FE /* TweetTableViewController.swift */,
 				024114531F31003400FAE520 /* TweetTableViewCell.swift */,
 			);
@@ -439,6 +453,7 @@
 				029F1B811F337335009AF9FE /* MentionsTableViewController.swift in Sources */,
 				02865C4A1F55DAA300EB727B /* SmashTweetTableViewController.swift in Sources */,
 				021549721F4B2F43005738DC /* SafariViewController.swift in Sources */,
+				0296C5711F645FFB0042AC02 /* PopularityTweetTableViewController.swift in Sources */,
 				02BD55901F55BF7F003D7477 /* Tweet.swift in Sources */,
 				02BD55931F55BFF2003D7477 /* TwitterUser.swift in Sources */,
 				021549751F4DAF03005738DC /* ImagesViewController.swift in Sources */,
@@ -456,6 +471,7 @@
 				029CBE751F49B06B00E6E51D /* RecentQueriesController.swift in Sources */,
 				021549791F4DCCC6005738DC /* ImagesViewModel.swift in Sources */,
 				0296C5681F5AD6A80042AC02 /* FetchedResultsTableViewController.swift in Sources */,
+				02120C3A1F65556B00E0AD89 /* TermTable.swift in Sources */,
 				02A8A6581F6150EC00D049F6 /* TweetTable.swift in Sources */,
 				0215497D1F4F1633005738DC /* ImagesViewPresenter.swift in Sources */,
 				0296C56A1F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift in Sources */,
