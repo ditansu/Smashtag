@@ -19,7 +19,7 @@ class TweetTable: NSManagedObject {
         do {
             let matches = try context.fetch(request)
             
-            if matches.count > 0 {
+            if matches.count > 0 { //  tweet alredy exist
                 assert(matches.count == 1, "TweetTable.findOrCreateTweet -- database inconsistency" )
             
                 let tweet = matches.first!
@@ -28,10 +28,13 @@ class TweetTable: NSManagedObject {
                 
                 let matchesTerm = try context.fetch(request)
                 
-                if matchesTerm.count == 0 {
+                if matchesTerm.count == 0 { // but this term is not yet linked with tweet
                     if let termTable = try? TermTable.findOrCreateTerm(search: term, in: context) {
                         tweet.addToTerms(termTable)
                     }
+                } else { // link is exist, so we are need update a term's timestamp
+                   _ = try? TermTable.findAndUpdateTimestamp(search: term, in: context)
+        
                 }
             
                 return tweet
@@ -51,12 +54,15 @@ class TweetTable: NSManagedObject {
             tweet.addToTerms(termTable)
         }
         
+        tweet.tweeter = try? TwitterUserTable.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
+    
+        
         for mentions in twitterInfo.tweetMentions {
             guard let userOrHashtag = mentions.userOrHashtag else { continue }
             for mention in userOrHashtag {
                 if let mentionTable = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
                     tweet.addToMentions(mentionTable)
-                    
+                    //mentionTable.
                 }
             }
         }

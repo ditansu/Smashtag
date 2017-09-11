@@ -42,6 +42,7 @@
 		02BD55931F55BFF2003D7477 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD55921F55BFF2003D7477 /* TwitterUser.swift */; };
 		02BD55951F56BECA003D7477 /* SmashTweetersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD55941F56BECA003D7477 /* SmashTweetersTableViewController.swift */; };
 		02C3FC331F43175B0036E681 /* ImageShowControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C3FC321F43175B0036E681 /* ImageShowControl.swift */; };
+		02EF61C01F66C201001216DA /* TwitterUserTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EF61BF1F66C201001216DA /* TwitterUserTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		02BD55921F55BFF2003D7477 /* TwitterUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		02BD55941F56BECA003D7477 /* SmashTweetersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmashTweetersTableViewController.swift; sourceTree = "<group>"; };
 		02C3FC321F43175B0036E681 /* ImageShowControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShowControl.swift; sourceTree = "<group>"; };
+		02EF61BF1F66C201001216DA /* TwitterUserTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUserTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
 				02120C391F65556B00E0AD89 /* TermTable.swift */,
 				0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */,
+				02EF61BF1F66C201001216DA /* TwitterUserTable.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				0215497D1F4F1633005738DC /* ImagesViewPresenter.swift in Sources */,
 				0296C56A1F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift in Sources */,
 				02A8A6541F6011A700D049F6 /* Popularity.xcdatamodeld in Sources */,
+				02EF61C01F66C201001216DA /* TwitterUserTable.swift in Sources */,
 				02BD558E1F55BC09003D7477 /* Smash.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

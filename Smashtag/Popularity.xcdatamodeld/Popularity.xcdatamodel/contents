@@ -18,10 +18,17 @@
         <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="tweets" inverseEntity="MentionTable" syncable="YES"/>
         <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TermTable" inverseName="tweets" inverseEntity="TermTable" syncable="YES"/>
+        <relationship name="tweeter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUserTable" inverseName="tweets" inverseEntity="TwitterUserTable" syncable="YES"/>
+    </entity>
+    <entity name="TwitterUserTable" representedClassName=".TwitterUserTable" syncable="YES" codeGenerationType="category">
+        <attribute name="handle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="tweeter" inverseEntity="TweetTable" syncable="YES"/>
     </entity>
     <elements>
         <element name="MentionTable" positionX="-4097" positionY="77" width="146" height="103"/>
-        <element name="TermTable" positionX="-4050" positionY="306" width="128" height="103"/>
-        <element name="TweetTable" positionX="-3861" positionY="125" width="128" height="118"/>
+        <element name="TermTable" positionX="-4077" positionY="270" width="128" height="103"/>
+        <element name="TweetTable" positionX="-3861" positionY="125" width="128" height="135"/>
+        <element name="TwitterUserTable" positionX="-3647" positionY="126" width="128" height="88"/>
     </elements>
 </model>

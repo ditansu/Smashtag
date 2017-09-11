@@ -20,7 +20,7 @@ class PopularityTweetTableViewController: TweetTableViewController {
         let dbName = AppDelegate.containerPopularity.persistentStoreCoordinator.persistentStores.first?.configurationName
         let dbPath = AppDelegate.containerPopularity.persistentStoreCoordinator.persistentStores.first?.url?.absoluteString
         
-        print("Try load db with name:\(dbNamge), by db path: \(dbPath)")
+        print("DEB1: Popularity Try loading db with name:\(dbName), by db path: \(dbPath)")
         
         updateDatabase(with: newTweets)
         
@@ -67,6 +67,19 @@ class PopularityTweetTableViewController: TweetTableViewController {
                 
                 print("DEB1: Popularity: \(mentionCount) mentions ")
             }
+            
+            if let termCount = try? context.count(for: TermTable.fetchRequest()){
+                
+                print("DEB1: Popularity: \(termCount) terms ")
+            }
+            
+            
+            if let userCount = try? context.count(for: TwitterUserTable.fetchRequest()){
+                
+                print("DEB1: Popularity: \(userCount) users ")
+            }
+            
+            
             
         }
     }

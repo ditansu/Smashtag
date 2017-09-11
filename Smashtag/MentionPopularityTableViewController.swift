@@ -15,25 +15,15 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
     var fetchedResultsController : NSFetchedResultsController<MentionTable>?
     
-    var popularity : Int = 2 { didSet { updateUI()} }
+    var popularity : Int = 2  { didSet { updateUI()} }
     
-    var searchTerm  : String? {
-        
-        didSet{
-            lastTwitterRequest = nil // REFRESHING
-            tweets.removeAll()
-            searchForTweets()
-            title = searchTerm
-        }
-        
-    }
+    var searchTerm  : String? { didSet{ updateUI()} }
     
     
     
     // MARK: -  Load Tweets
     
     
-    fileprivate var tweets = [Array<Twitter.Tweet>]()
     
     
     override func viewDidLoad() {
