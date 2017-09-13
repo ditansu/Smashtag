@@ -38,8 +38,11 @@ class PopularityTweetTableViewController: TweetTableViewController {
             
             guard let term = self?.searchText! else {return}
             
-            for twitterInfo in tweets {
-                _ = try? TweetTable.findOrCreateTweet(matching: twitterInfo, in: context)
+            let popularityManager = PopularityManager(context: context)
+            
+            for tweet in tweets {
+                 popularityManager.calculateAndSavePopularity(from: tweet, by: term)
+                //TweetTable.findOrCreateTweet(matching: twitterInfo, in: context)
             }
             
             try? context.save()
@@ -61,6 +64,11 @@ class PopularityTweetTableViewController: TweetTableViewController {
             
             if let tweetCount = (try? context.fetch(request))?.count {
                 print("DEB1: Popularity: \(tweetCount) tweets")
+            }
+            
+            
+            if let popularityCount = try? context.count(for: PopularityTable.fetchRequest()){
+                print("DEB1: Popularity count: \(popularityCount)  ")
             }
             
             if let mentionCount = try? context.count(for: MentionTable.fetchRequest()){

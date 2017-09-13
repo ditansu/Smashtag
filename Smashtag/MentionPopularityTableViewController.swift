@@ -13,12 +13,15 @@ import CoreData
 class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
     
-    var fetchedResultsController : NSFetchedResultsController<MentionTable>?
+    //var fetchedResultsController : NSFetchedResultsController<MentionTable>?
+    
+    
     
     var popularity : Int = 2  { didSet { updateUI()} }
     
     var searchTerm  : String? { didSet{ updateUI()} }
     
+    var popularityManager = PopularityManager(context: AppDelegate.contextPopularity)
     
     
     // MARK: -  Load Tweets
@@ -133,35 +136,9 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
             
         guard let term = searchTerm else {return}
         
-        let context = AppDelegate.contextPopularity
+        popularityManager.delegat = self
+        popularityManager.fetchMentions(for: term, with: popularity)
         
-        let request : NSFetchRequest<MentionTable> = MentionTable.fetchRequest()
-        
-        request.sortDescriptors = [
-            
-            NSSortDescriptor(
-                key: "popularity",
-                ascending: false
-            ),
-            
-            NSSortDescriptor(
-                key: "mention",
-                ascending: true,
-                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            )
-        ]
-        
-        request.predicate = NSPredicate(format: "any popularity >= %d and terms.term = %@", popularity,  term)
-        
-        fetchedResultsController = NSFetchedResultsController<MentionTable>(
-            fetchRequest: request,
-            managedObjectContext: context,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        
-        fetchedResultsController?.delegate = self
-        try? fetchedResultsController?.performFetch()
         tableView.reloadData()
         
     }
@@ -172,11 +149,11 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PopularityCell", for: indexPath)
         
         
-        if let popularityRow = fetchedResultsController?.object(at: indexPath) {
+        if let popularityRow = popularityManager.returnMentionPopularity(at: indexPath) {
             
             cell.textLabel?.text = popularityRow.mention
-           // let popularityCount = popularityRow.popularitys
-           // cell.detailTextLabel?.text = "\(popularityCount) tweet\((popularityCount == 1) ? "" : "s")"
+            let popularityCount = popularityRow.popularity
+            cell.detailTextLabel?.text = "\(popularityCount) tweet\((popularityCount == 1) ? "" : "s")"
         }
         return cell
     }

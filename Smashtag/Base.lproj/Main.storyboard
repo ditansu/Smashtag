@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tweet Table View Controller-->
+        <!--Popularity Tweet Table View Controller-->
         <scene sceneID="hv0-fe-k5C">
             <objects>
-                <tableViewController storyboardIdentifier="TweetFindMVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jfx-WO-VJq" customClass="TweetTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TweetFindMVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jfx-WO-VJq" customClass="PopularityTweetTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="89" sectionHeaderHeight="28" sectionFooterHeight="28" id="Y1M-t4-vU2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
