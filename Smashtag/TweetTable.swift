@@ -11,7 +11,7 @@ import Twitter
 
 class TweetTable: NSManagedObject {
     
-    class func findOrCreateTweet(search term: String, matching twitterInfo : Twitter.Tweet, in context : NSManagedObjectContext)throws -> TweetTable
+    class func findOrCreateTweet(matching twitterInfo : Twitter.Tweet, in context : NSManagedObjectContext)throws -> TweetTable
     {
         let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
         request.predicate = NSPredicate(format: "unique = %@", twitterInfo.identifier)
@@ -24,19 +24,6 @@ class TweetTable: NSManagedObject {
             
                 let tweet = matches.first!
                 
-                request.predicate = NSPredicate(format: "unique = %@ and terms.term = %@", twitterInfo.identifier,term)
-                
-                let matchesTerm = try context.fetch(request)
-                
-                if matchesTerm.count == 0 { // but this term is not yet linked with tweet
-                    if let termTable = try? TermTable.findOrCreateTerm(search: term, in: context) {
-                        tweet.addToTerms(termTable)
-                    }
-                } else { // link is exist, so we are need update a term's timestamp
-                   _ = try? TermTable.findAndUpdateTimestamp(search: term, in: context)
-        
-                }
-            
                 return tweet
             }
             
@@ -50,22 +37,8 @@ class TweetTable: NSManagedObject {
         tweet.text    = twitterInfo.text
         tweet.created = twitterInfo.created as NSDate
         
-        if let termTable = try? TermTable.findOrCreateTerm(search: term, in: context) {
-            tweet.addToTerms(termTable)
-        }
-        
         tweet.tweeter = try? TwitterUserTable.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
-    
-        
-        for mentions in twitterInfo.tweetMentions {
-            guard let userOrHashtag = mentions.userOrHashtag else { continue }
-            for mention in userOrHashtag {
-                if let mentionTable = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
-                    tweet.addToMentions(mentionTable)
-                    //mentionTable.
-                }
-            }
-        }
+
         
         return tweet
         

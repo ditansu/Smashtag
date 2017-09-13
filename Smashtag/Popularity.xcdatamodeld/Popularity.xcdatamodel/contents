@@ -2,21 +2,23 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="MentionTable" representedClassName=".MentionTable" syncable="YES" codeGenerationType="category">
         <attribute name="mention" attributeType="String" syncable="YES"/>
-        <attribute name="popularity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TermTable" inverseName="mentions" inverseEntity="TermTable" syncable="YES"/>
-        <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="mentions" inverseEntity="TweetTable" syncable="YES"/>
+        <relationship name="popularitys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PopularityTable" inverseName="mentions" inverseEntity="PopularityTable" syncable="YES"/>
+    </entity>
+    <entity name="PopularityTable" representedClassName=".PopularityTable" syncable="YES" codeGenerationType="category">
+        <attribute name="popularity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="mentions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="popularitys" inverseEntity="MentionTable" syncable="YES"/>
+        <relationship name="terms" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TermTable" inverseName="popularitys" inverseEntity="TermTable" syncable="YES"/>
     </entity>
     <entity name="TermTable" representedClassName=".TermTable" syncable="YES" codeGenerationType="category">
         <attribute name="term" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="terms" inverseEntity="MentionTable" syncable="YES"/>
+        <relationship name="popularitys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PopularityTable" inverseName="terms" inverseEntity="PopularityTable" syncable="YES"/>
         <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="terms" inverseEntity="TweetTable" syncable="YES"/>
     </entity>
     <entity name="TweetTable" representedClassName=".TweetTable" syncable="YES" codeGenerationType="category">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="tweets" inverseEntity="MentionTable" syncable="YES"/>
         <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TermTable" inverseName="tweets" inverseEntity="TermTable" syncable="YES"/>
         <relationship name="tweeter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUserTable" inverseName="tweets" inverseEntity="TwitterUserTable" syncable="YES"/>
     </entity>
@@ -26,9 +28,10 @@
         <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="tweeter" inverseEntity="TweetTable" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MentionTable" positionX="-4097" positionY="77" width="146" height="103"/>
-        <element name="TermTable" positionX="-4077" positionY="270" width="128" height="103"/>
-        <element name="TweetTable" positionX="-3861" positionY="125" width="128" height="135"/>
-        <element name="TwitterUserTable" positionX="-3647" positionY="126" width="128" height="88"/>
+        <element name="MentionTable" positionX="-4176" positionY="-36" width="126" height="73"/>
+        <element name="TermTable" positionX="-4178" positionY="81" width="128" height="103"/>
+        <element name="TweetTable" positionX="-3917" positionY="81" width="128" height="118"/>
+        <element name="TwitterUserTable" positionX="-4176" positionY="225" width="128" height="88"/>
+        <element name="PopularityTable" positionX="-3917" positionY="-36" width="128" height="90"/>
     </elements>
 </model>

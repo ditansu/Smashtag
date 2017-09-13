@@ -41,6 +41,8 @@
 		02BD55901F55BF7F003D7477 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD558F1F55BF7F003D7477 /* Tweet.swift */; };
 		02BD55931F55BFF2003D7477 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD55921F55BFF2003D7477 /* TwitterUser.swift */; };
 		02BD55951F56BECA003D7477 /* SmashTweetersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD55941F56BECA003D7477 /* SmashTweetersTableViewController.swift */; };
+		02BE43601F692AC300930D8A /* PopularityManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BE435F1F692AC300930D8A /* PopularityManage.swift */; };
+		02BE43621F696C9500930D8A /* PopularityTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BE43611F696C9500930D8A /* PopularityTable.swift */; };
 		02C3FC331F43175B0036E681 /* ImageShowControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C3FC321F43175B0036E681 /* ImageShowControl.swift */; };
 		02EF61C01F66C201001216DA /* TwitterUserTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EF61BF1F66C201001216DA /* TwitterUserTable.swift */; };
 /* End PBXBuildFile section */
@@ -116,6 +118,8 @@
 		02BD558F1F55BF7F003D7477 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		02BD55921F55BFF2003D7477 /* TwitterUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		02BD55941F56BECA003D7477 /* SmashTweetersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmashTweetersTableViewController.swift; sourceTree = "<group>"; };
+		02BE435F1F692AC300930D8A /* PopularityManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularityManage.swift; sourceTree = "<group>"; };
+		02BE43611F696C9500930D8A /* PopularityTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularityTable.swift; sourceTree = "<group>"; };
 		02C3FC321F43175B0036E681 /* ImageShowControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShowControl.swift; sourceTree = "<group>"; };
 		02EF61BF1F66C201001216DA /* TwitterUserTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUserTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,6 +172,7 @@
 		0296C56B1F5C30750042AC02 /* MentionPopularityMVC */ = {
 			isa = PBXGroup;
 			children = (
+				02BE435F1F692AC300930D8A /* PopularityManage.swift */,
 				0296C56C1F5C32990042AC02 /* MentionPopularityTableViewController.swift */,
 				02B7643F1F62C5B200EA2B7A /* MentionPopularityTVCExtension.swift */,
 			);
@@ -183,6 +188,7 @@
 				02120C391F65556B00E0AD89 /* TermTable.swift */,
 				0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */,
 				02EF61BF1F66C201001216DA /* TwitterUserTable.swift */,
+				02BE43611F696C9500930D8A /* PopularityTable.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -219,9 +225,9 @@
 			children = (
 				029F1B371F2F7579009AF9FE /* AppDelegate.swift */,
 				0296C5721F6460CE0042AC02 /* Core Data */,
+				0296C56B1F5C30750042AC02 /* MentionPopularityMVC */,
 				02BD55661F55AF10003D7477 /* Lecture10MVC */,
 				029F1B7F1F337271009AF9FE /* TweetFindMVC */,
-				0296C56B1F5C30750042AC02 /* MentionPopularityMVC */,
 				029CBE731F49AFFD00E6E51D /* RecentQueriesMVC */,
 				021549731F4DAE9F005738DC /* ImagesMVP */,
 				029F1B821F337346009AF9FE /* MentionsMVC */,
@@ -453,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				029F1B881F337A14009AF9FE /* MentionsModel.swift in Sources */,
+				02BE43621F696C9500930D8A /* PopularityTable.swift in Sources */,
 				029F1B811F337335009AF9FE /* MentionsTableViewController.swift in Sources */,
 				02865C4A1F55DAA300EB727B /* SmashTweetTableViewController.swift in Sources */,
 				021549721F4B2F43005738DC /* SafariViewController.swift in Sources */,
@@ -461,6 +468,7 @@
 				02BD55931F55BFF2003D7477 /* TwitterUser.swift in Sources */,
 				021549751F4DAF03005738DC /* ImagesViewController.swift in Sources */,
 				021549771F4DBC14005738DC /* ImageViewCell.swift in Sources */,
+				02BE43601F692AC300930D8A /* PopularityManage.swift in Sources */,
 				029F1B381F2F7579009AF9FE /* AppDelegate.swift in Sources */,
 				029F1B841F337971009AF9FE /* ImageMentionTableViewCell.swift in Sources */,
 				029F1B671F2F76A7009AF9FE /* TweetTableViewController.swift in Sources */,

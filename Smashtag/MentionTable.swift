@@ -26,9 +26,6 @@ class MentionTable: NSManagedObject {
                 assert(matches.count == 1, "Mention.findOrCreateMention -- database inconsistency" )
                 
                 let mention = matches.first!
-                
-                mention.popularity += 1
-                
                 return mention
             }
             
@@ -39,7 +36,6 @@ class MentionTable: NSManagedObject {
         let mention = MentionTable(context : context)
         
         mention.mention = tweetMention
-        mention.popularity = 1
         
         return mention
         

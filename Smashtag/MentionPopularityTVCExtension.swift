@@ -40,6 +40,8 @@ extension MentionPopularityTableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
+        https://www.andrewcbancroft.com/2015/03/05/displaying-data-with-nsfetchedresultscontroller-and-swift/
+        
         var result : String? = nil
         
         if  let sections = fetchedResultsController?.sections, sections.count > 0 {

@@ -20,7 +20,7 @@ class PopularityTweetTableViewController: TweetTableViewController {
         let dbName = AppDelegate.containerPopularity.persistentStoreCoordinator.persistentStores.first?.configurationName
         let dbPath = AppDelegate.containerPopularity.persistentStoreCoordinator.persistentStores.first?.url?.absoluteString
         
-        print("DEB1: Popularity Try loading db with name:\(dbName), by db path: \(dbPath)")
+        print("DEB1: Popularity Try loading db with name:\(String(describing: dbName)), by db path: \(String(describing: dbPath))")
         
         updateDatabase(with: newTweets)
         
@@ -39,7 +39,7 @@ class PopularityTweetTableViewController: TweetTableViewController {
             guard let term = self?.searchText! else {return}
             
             for twitterInfo in tweets {
-                _ = try? TweetTable.findOrCreateTweet(search: term, matching: twitterInfo, in: context)
+                _ = try? TweetTable.findOrCreateTweet(matching: twitterInfo, in: context)
             }
             
             try? context.save()
