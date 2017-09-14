@@ -30,17 +30,17 @@ protocol PopularityManageProtocol:  TableViewDataSourceProtocol {
 
 
 struct PopularityManager: PopularityManageProtocol {
-
+    
     private let context : NSManagedObjectContext
     private var fetchedResultsController : NSFetchedResultsController<PopularityTable>?
-    var delegat : NSFetchedResultsControllerDelegate? 
+    var delegat : NSFetchedResultsControllerDelegate?
     
     init(context : NSManagedObjectContext){
-     self.context = context 
+        self.context = context
     }
     
     func calculateAndSavePopularity(from tweet: Twitter.Tweet, by term: String) {
-     
+        
         func isTweetTermPairExist(twitter identifier: String, by term: String) -> Bool {
             let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
             request.predicate = NSPredicate(format: "unique = %@ and terms.term CONTAINS[cd] %@", identifier,term)
@@ -48,8 +48,8 @@ struct PopularityManager: PopularityManageProtocol {
             return !matchesTerm.isEmpty
         }
         
-       
-        func createOrUpdatePopularity(by mention : MentionTable, for term: TermTable)throws {
+        
+        func createOrUpdatePopularity(by mention : MentionTable, for term: TermTable)throws -> PopularityTable {
             let request : NSFetchRequest<PopularityTable> = PopularityTable.fetchRequest()
             request.predicate = NSPredicate(format: "mention.mention = %@ and term.term = %@", mention.mention!,term.term!)
             
@@ -59,32 +59,38 @@ struct PopularityManager: PopularityManageProtocol {
                 assert(matches?.count == 1, "createOrUpdatePopularity -- database inconsistency" )
                 let popularity = matches!.first
                 popularity?.popularity += 1
-            } else {
-                let popularity = PopularityTable(context: context)
-                popularity.popularity = 0
-                popularity.mention = mention
-                popularity.term = term
+                return popularity!
             }
+            
+            let popularity = PopularityTable(context: context)
+            popularity.popularity = 0
+            popularity.mention = mention
+            popularity.term = term
+            return popularity
             
         }
         
-   //MARK: - Main func
+        //MARK: - Main func
         
         if !isTweetTermPairExist(twitter: tweet.identifier, by: term) {
-        
+            
             guard let tweetRecord = try? TweetTable.findOrCreateTweet(matching: tweet, in: context) else {return}
-            guard let termRecord = try? TermTable.findOrCreateTerm(search: term, in: context) else {return}
+            guard let termRecord  = try? TermTable.findOrCreateTerm(search: term, in: context) else {return}
             
             tweetRecord.addToTerms(termRecord)
             
-            for mentions in tweet.tweetMentions {
-                guard let userOrHashtag = mentions.userOrHashtag else { continue }
-                for mention in userOrHashtag {
+            for tweetMentions in tweet.tweetMentions {
+                
+                guard let userOrHashtag = tweetMentions.userOrHashtag else {continue}
+                
+                //print("DEB1: userOrHashtag  title: \(userOrHashtag.title) for [\(userOrHashtag.mentions)]")
+                
+                for mention in userOrHashtag.mentions {
                     
                     if let mentionRecord = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
-                
-                      _ = try? createOrUpdatePopularity(by: mentionRecord, for: termRecord)
-                        
+                        _ = try? createOrUpdatePopularity(by: mentionRecord, for: termRecord)
+                        let typeMentionTable = try? MentionTypeTable.findOrCreateMentionType(type: userOrHashtag.title, in: context)
+                        typeMentionTable!.addToMentions(mentionRecord)
                     }
                 }
             }
@@ -93,10 +99,14 @@ struct PopularityManager: PopularityManageProtocol {
     
     
     mutating func fetchMentions(for term : String, with popularity : Int) {
-       
+        
         let request : NSFetchRequest<PopularityTable> = PopularityTable.fetchRequest()
         
         request.sortDescriptors = [
+            NSSortDescriptor(  // THIS SORTDECRIPTION IS VERY IMPORTANT FOR THE CORRECT CELL PLACED IN HEADER
+                key: "mention.type.type",
+                ascending: true
+            ),
             
             NSSortDescriptor(
                 key: "popularity",
@@ -115,7 +125,7 @@ struct PopularityManager: PopularityManageProtocol {
         fetchedResultsController = NSFetchedResultsController<PopularityTable> (
             fetchRequest: request,
             managedObjectContext: context,
-            sectionNameKeyPath: nil,
+            sectionNameKeyPath: "mention.type.type",
             cacheName: nil
         )
         
@@ -130,24 +140,25 @@ struct PopularityManager: PopularityManageProtocol {
         
         
         guard
-                let mentionRecord = popularityRecord?.mention,
-                let mention = mentionRecord.mention,
-                let popularity = popularityRecord?.popularity
-        else {
+            let mentionRecord = popularityRecord?.mention,
+            let mention = mentionRecord.mention,
+            let popularity = popularityRecord?.popularity
+            else {
                 return nil
         }
         
         let result : (mention : String, popularity : Int)
         result.mention = mention
         result.popularity = Int(popularity)
-      
+        
         return result
     }
-
+    
     
     // TableViewDataSourceProtocol
     
     var numberOfSections: Int {
+        print("DEB1: numberOfSections: \(fetchedResultsController?.sections?.count ?? 1)")
         return fetchedResultsController?.sections?.count ?? 1
     }
     
@@ -158,7 +169,7 @@ struct PopularityManager: PopularityManageProtocol {
         } else {
             result = 0
         }
-        //print("DEB1: numberOfRowsInSection: \(result)")
+        print("DEB1: numberOfRowsInSection: \(result)")
         return result
     }
     
@@ -168,23 +179,23 @@ struct PopularityManager: PopularityManageProtocol {
         if  let sections = fetchedResultsController?.sections, sections.count > 0 {
             result = sections[section].name
         }
-        //print("DEB1: titleForHeaderInSection: \(String(describing: result))")
+        print("DEB1: titleForHeaderInSection: \(String(describing: result))")
         return result
     }
     
     var sectionIndexTitles: [String]? {
         let result = fetchedResultsController?.sectionIndexTitles
-        //print("DEB1: sectionIndexTitles: \(String(describing: result))")
+        print("DEB1: sectionIndexTitles: \(String(describing: result))")
         return result
     }
     
     
     func sectionForSectionIndexTitle(title: String, at index: Int) -> Int {
         let result = fetchedResultsController?.section(forSectionIndexTitle: title, at: index) ?? 0
-        //print("DEB1: sectionForSectionIndexTitle: \(result)")
+        print("DEB1: sectionForSectionIndexTitle: \(result)")
         return result
     }
-
     
-
+    
+    
 }

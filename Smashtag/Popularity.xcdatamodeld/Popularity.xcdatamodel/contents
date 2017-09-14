@@ -3,6 +3,11 @@
     <entity name="MentionTable" representedClassName=".MentionTable" syncable="YES" codeGenerationType="category">
         <attribute name="mention" attributeType="String" syncable="YES"/>
         <relationship name="popularitys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PopularityTable" inverseName="mention" inverseEntity="PopularityTable" syncable="YES"/>
+        <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MentionTypeTable" inverseName="mentions" inverseEntity="MentionTypeTable" syncable="YES"/>
+    </entity>
+    <entity name="MentionTypeTable" representedClassName=".MentionTypeTable" syncable="YES" codeGenerationType="category">
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MentionTable" inverseName="type" inverseEntity="MentionTable" syncable="YES"/>
     </entity>
     <entity name="PopularityTable" representedClassName=".PopularityTable" syncable="YES" codeGenerationType="category">
         <attribute name="popularity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -28,10 +33,11 @@
         <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetTable" inverseName="tweeter" inverseEntity="TweetTable" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MentionTable" positionX="-4176" positionY="-36" width="126" height="73"/>
+        <element name="MentionTable" positionX="-4176" positionY="-36" width="126" height="90"/>
         <element name="PopularityTable" positionX="-3917" positionY="-36" width="128" height="88"/>
         <element name="TermTable" positionX="-4178" positionY="81" width="128" height="103"/>
         <element name="TweetTable" positionX="-3917" positionY="65" width="128" height="118"/>
         <element name="TwitterUserTable" positionX="-4176" positionY="225" width="128" height="88"/>
+        <element name="MentionTypeTable" positionX="-4050" positionY="117" width="128" height="75"/>
     </elements>
 </model>

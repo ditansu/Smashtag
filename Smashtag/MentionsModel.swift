@@ -47,13 +47,13 @@ extension TweetMentions {
         
     }
     
-    var userOrHashtag : [String]? {
+    var userOrHashtag : (title: String, mentions : [String])? {
        
         switch self {
         case .image, .url:
             return nil 
-        case .hashtag(_, let mentions), .user(_, let mentions):
-            return mentions
+        case .hashtag(let title, let mentions), .user(let title, let mentions):
+            return (title, mentions)
         }
         
     }

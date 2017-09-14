@@ -12,7 +12,7 @@ import CoreData
 
 class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
-    var popularity  : Int = 2  { didSet { updateUI()} }
+    var popularity  : Int = 1  { didSet { updateUI()} }
     var searchTerm  : String?  { didSet { updateUI()} }
     var popularityManager = PopularityManager(context: AppDelegate.contextPopularity)
     

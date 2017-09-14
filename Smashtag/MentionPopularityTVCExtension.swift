@@ -28,6 +28,8 @@ extension MentionPopularityTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return popularityManager.sectionForSectionIndexTitle(title: title, at: index)
+        let result = popularityManager.sectionForSectionIndexTitle(title: title, at: index)
+        print("DEB1: sectionForSectionIndexTitle: \(result)")
+        return result
     }
 }
