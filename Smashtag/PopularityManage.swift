@@ -14,12 +14,6 @@ import Twitter
 
 
 
-
-
-protocol CoreDataFetchedResultProtocol {
-    var delegat : NSFetchedResultsControllerDelegate? { get set }
-}
-
 protocol TableViewDataSourceProtocol {
     var  numberOfSections : Int { get }
     var  sectionIndexTitles : [String]? { get }
@@ -28,7 +22,7 @@ protocol TableViewDataSourceProtocol {
     func sectionForSectionIndexTitle(title: String, at index: Int)->Int
 }
 
-protocol PopularityManageProtocol: CoreDataFetchedResultProtocol, TableViewDataSourceProtocol {
+protocol PopularityManageProtocol:  TableViewDataSourceProtocol {
     func calculateAndSavePopularity(from tweet : Twitter.Tweet,by term : String)
     mutating func fetchMentions(for term : String, with popularity : Int)
     func returnMentionPopularity(at indexPath: IndexPath) -> (mention : String, popularity : Int)?
@@ -39,17 +33,17 @@ struct PopularityManager: PopularityManageProtocol {
 
     private let context : NSManagedObjectContext
     private var fetchedResultsController : NSFetchedResultsController<PopularityTable>?
-    var delegat : NSFetchedResultsControllerDelegate?
+    var delegat : NSFetchedResultsControllerDelegate? 
     
     init(context : NSManagedObjectContext){
-     self.context = context
+     self.context = context 
     }
     
     func calculateAndSavePopularity(from tweet: Twitter.Tweet, by term: String) {
      
         func isTweetTermPairExist(twitter identifier: String, by term: String) -> Bool {
             let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
-            request.predicate = NSPredicate(format: "unique = %@ and terms.term = %@", identifier,term)
+            request.predicate = NSPredicate(format: "unique = %@ and terms.term CONTAINS[cd] %@", identifier,term)
             guard let matchesTerm = try? context.fetch(request) else {return false}
             return !matchesTerm.isEmpty
         }
@@ -57,7 +51,7 @@ struct PopularityManager: PopularityManageProtocol {
        
         func createOrUpdatePopularity(by mention : MentionTable, for term: TermTable)throws {
             let request : NSFetchRequest<PopularityTable> = PopularityTable.fetchRequest()
-            request.predicate = NSPredicate(format: "mentions.mention = %@ and terms.term = %@", mention.mention!,term.term!)
+            request.predicate = NSPredicate(format: "mention.mention = %@ and term.term = %@", mention.mention!,term.term!)
             
             let matches = try? context.fetch(request)
             
@@ -74,7 +68,7 @@ struct PopularityManager: PopularityManageProtocol {
             
         }
         
-   //MAKR: - Main func
+   //MARK: - Main func
         
         if !isTweetTermPairExist(twitter: tweet.identifier, by: term) {
         
@@ -116,9 +110,9 @@ struct PopularityManager: PopularityManageProtocol {
             )
         ]
         
-        request.predicate = NSPredicate(format: "any popularity >= %d and terms.term = %@", popularity,  term)
+        request.predicate = NSPredicate(format: "popularity >= %d and term.term = %@", popularity,  term)
         
-        fetchedResultsController = NSFetchedResultsController<PopularityTable>(
+        fetchedResultsController = NSFetchedResultsController<PopularityTable> (
             fetchRequest: request,
             managedObjectContext: context,
             sectionNameKeyPath: nil,

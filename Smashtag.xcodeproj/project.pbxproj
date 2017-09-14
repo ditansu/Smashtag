@@ -183,12 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				02A8A6521F6011A700D049F6 /* Popularity.xcdatamodeld */,
-				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
-				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
-				02120C391F65556B00E0AD89 /* TermTable.swift */,
 				0296C5671F5AD6A80042AC02 /* FetchedResultsTableViewController.swift */,
-				02EF61BF1F66C201001216DA /* TwitterUserTable.swift */,
-				02BE43611F696C9500930D8A /* PopularityTable.swift */,
+				02BE43631F6A70A900930D8A /* Tables */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -309,6 +305,18 @@
 				0296C5691F5ADBE30042AC02 /* SmashTweetersTVCExtension.swift */,
 			);
 			name = SmashTweetersTVC;
+			sourceTree = "<group>";
+		};
+		02BE43631F6A70A900930D8A /* Tables */ = {
+			isa = PBXGroup;
+			children = (
+				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
+				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
+				02120C391F65556B00E0AD89 /* TermTable.swift */,
+				02EF61BF1F66C201001216DA /* TwitterUserTable.swift */,
+				02BE43611F696C9500930D8A /* PopularityTable.swift */,
+			);
+			name = Tables;
 			sourceTree = "<group>";
 		};
 		02C3FC311F4315290036E681 /* ImageShowMVC */ = {

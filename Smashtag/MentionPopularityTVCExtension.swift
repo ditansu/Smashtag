@@ -11,9 +11,6 @@ import CoreData
 
 extension MentionPopularityTableViewController {
     
-    
-    // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
        return  popularityManager.numberOfSections
     }
@@ -30,10 +27,7 @@ extension MentionPopularityTableViewController {
         return popularityManager.sectionIndexTitles
     }
     
-    
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return popularityManager.sectionForSectionIndexTitle(title: title, at: index)
     }
-    
-    
 }

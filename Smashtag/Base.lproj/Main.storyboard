@@ -307,7 +307,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HMX-tt-37w">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HMX-tt-37w">
                                 <rect key="frame" x="0.0" y="64" width="320" height="2"/>
                             </progressView>
                         </subviews>
@@ -491,6 +491,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="jfx-WO-VJq" kind="show" identifier="LoadRecentQueriesMVC" id="3Df-4e-DKJ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -502,7 +505,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1G-qm-BIX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1118" y="1790"/>
+            <point key="canvasLocation" x="1118" y="1877"/>
         </scene>
         <!--Images-->
         <scene sceneID="FUA-zx-Cq4">
@@ -626,7 +629,7 @@
         <image name="Images" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YPl-oO-jCo"/>
+        <segue reference="3Df-4e-DKJ"/>
         <segue reference="kge-vy-z2o"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -31,7 +31,7 @@
         <element name="MentionTable" positionX="-4176" positionY="-36" width="126" height="73"/>
         <element name="PopularityTable" positionX="-3917" positionY="-36" width="128" height="88"/>
         <element name="TermTable" positionX="-4178" positionY="81" width="128" height="103"/>
-        <element name="TweetTable" positionX="-3917" positionY="81" width="128" height="118"/>
+        <element name="TweetTable" positionX="-3917" positionY="65" width="128" height="118"/>
         <element name="TwitterUserTable" positionX="-4176" positionY="225" width="128" height="88"/>
     </elements>
 </model>
