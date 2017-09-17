@@ -1,4 +1,14 @@
 //
+//  PopularityManageFast.swift
+//  Smashtag
+//
+//  Created by Dmitry Podoprosvetov on 17.09.17.
+//  Copyright © 2017 ditansu. All rights reserved.
+//
+
+// For extra task - load\chek if exists by batches 
+
+//
 //  PopularityManage.swift
 //  Smashtag
 //
@@ -12,8 +22,6 @@ import Twitter
 
 
 
-
-
 private protocol TableViewDataSourceProtocol {
     var  numberOfSections : Int { get }
     var  sectionIndexTitles : [String]? { get }
@@ -23,13 +31,13 @@ private protocol TableViewDataSourceProtocol {
 }
 
 private protocol PopularityManageProtocol:  TableViewDataSourceProtocol {
-    func calculateAndSavePopularity(from tweet : Twitter.Tweet,by term : String)
+    func calculateAndSavePopularity(from tweets : [Twitter.Tweet],by term : String)
     mutating func fetchMentions(for term : String, with popularity : Int)
     func returnMentionPopularity(at indexPath: IndexPath) -> (mention : String, popularity : Int)?
 }
 
 
-struct PopularityManager: PopularityManageProtocol {
+struct PopularityManagerFast: PopularityManageProtocol {
     
     private let context : NSManagedObjectContext
     private var fetchedResultsController : NSFetchedResultsController<PopularityTable>?
@@ -39,7 +47,7 @@ struct PopularityManager: PopularityManageProtocol {
         self.context = context
     }
     
-    func calculateAndSavePopularity(from tweet: Twitter.Tweet, by term: String) {
+    func calculateAndSavePopularity(from tweets: [Twitter.Tweet], by term: String) {
         
         func isTweetTermPairExist(twitter identifier: String, by term: String) -> Bool {
             let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
@@ -70,10 +78,10 @@ struct PopularityManager: PopularityManageProtocol {
             
         }
         
-            
+        
         
         //MARK: - Main func
-        
+       /*
         if !isTweetTermPairExist(twitter: tweet.identifier, by: term) {
             
             guard let tweetRecord = try? TweetTable.findOrCreateTweet(matching: tweet, in: context) else {return}
@@ -99,7 +107,7 @@ struct PopularityManager: PopularityManageProtocol {
                     }
                 }
             }
-        }
+        } */
     }
     
     
@@ -191,7 +199,7 @@ struct PopularityManager: PopularityManageProtocol {
     }
     
     
-    // MARK: - SectionIndex 
+    // MARK: - SectionIndex
     
     func sectionIndexTitle(forSectionName sectionName: String) -> String? {
         guard let result = sectionName.characters.first else {return nil}
@@ -199,7 +207,7 @@ struct PopularityManager: PopularityManageProtocol {
     }
     
     var sectionIndexTitles: [String]? {
-         //["П","Х"] //fetchedResultsController?.sectionIndexTitles
+        //["П","Х"] //fetchedResultsController?.sectionIndexTitles
         //print("DEB1: sectionIndexTitles: \(String(describing: result))")
         return nil
     }
@@ -210,6 +218,7 @@ struct PopularityManager: PopularityManageProtocol {
         print("DEB1: sectionForSectionIndexTitle: \(result)")
         return result
     }
+    
     
     
 }

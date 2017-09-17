@@ -12,9 +12,9 @@ import CoreData
 
 class MentionPopularityTableViewController: FetchedResultsTableViewController {
     
-    var popularity  : Int = 1  { didSet { updateUI()} }
+    var popularity  : Int = 2  { didSet { updateUI()} }
     var searchTerm  : String?  { didSet { updateUI()} }
-    var popularityManager = PopularityManager(context: AppDelegate.contextPopularity)
+    fileprivate var popularityManager = PopularityManager(context: AppDelegate.contextPopularity)
     
     private func updateUI(){
         guard let term = searchTerm else {return}
@@ -65,3 +65,29 @@ class MentionPopularityTableViewController: FetchedResultsTableViewController {
 
     
 }
+
+extension MentionPopularityTableViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return  popularityManager.numberOfSections
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return popularityManager.numberOfRows(in: section)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return popularityManager.titleForHeader(in: section)
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return popularityManager.sectionIndexTitles
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        let result = popularityManager.sectionForSectionIndexTitle(title: title, at: index)
+        print("DEB1: sectionForSectionIndexTitle: \(result)")
+        return result
+    }
+}
+
