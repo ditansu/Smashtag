@@ -44,6 +44,14 @@ class TweetTable: NSManagedObject {
         
     }
     
+    
+    class func isTweetTermPairExist(twitter identifier: String, by term: String, in context : NSManagedObjectContext) -> Bool {
+        let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
+        request.predicate = NSPredicate(format: "unique = %@ and terms.term CONTAINS[cd] %@", identifier,term)
+        guard let matchesTerm = try? context.fetch(request) else {return false}
+        return !matchesTerm.isEmpty
+    }
+    
     class func createTweetsBatch(from tweets : [Twitter.Tweet], in context : NSManagedObjectContext)throws -> Bool
     {
         

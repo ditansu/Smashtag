@@ -6,7 +6,7 @@
 //  Copyright © 2017 ditansu. All rights reserved.
 //
 
-// For extra task - load\chek if exists by batches 
+// For extra task - load\chek if exists by batches
 
 //
 //  PopularityManage.swift
@@ -49,67 +49,35 @@ struct PopularityManagerFast: PopularityManageProtocol {
     
     func calculateAndSavePopularity(from tweets: [Twitter.Tweet], by term: String) {
         
-        func isTweetTermPairExist(twitter identifier: String, by term: String) -> Bool {
-            let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
-            request.predicate = NSPredicate(format: "unique = %@ and terms.term CONTAINS[cd] %@", identifier,term)
-            guard let matchesTerm = try? context.fetch(request) else {return false}
-            return !matchesTerm.isEmpty
-        }
-        
-        
-        func createOrUpdatePopularity(by mention : MentionTable, for term: TermTable)throws -> PopularityTable {
-            let request : NSFetchRequest<PopularityTable> = PopularityTable.fetchRequest()
-            request.predicate = NSPredicate(format: "mention.mention = %@ and term.term = %@", mention.mention!,term.term!)
+        do {
+            _ = try TweetTable.createTweetsBatch(from: tweets, in: context)
+            let termRecord  = try TermTable.findOrCreateTerm(search: term, in: context)
             
-            let matches = try? context.fetch(request)
+            let newTweetsTermPairs = tweets.filter{tweet in !TweetTable.isTweetTermPairExist(twitter: tweet.identifier, by: term, in: context)}
             
-            if !matches!.isEmpty {
-                assert(matches?.count == 1, "createOrUpdatePopularity -- database inconsistency" )
-                let popularity = matches!.first
-                popularity?.popularity += 1
-                return popularity!
-            }
-            
-            let popularity = PopularityTable(context: context)
-            popularity.popularity = 0
-            popularity.mention = mention
-            popularity.term = term
-            return popularity
-            
-        }
-        
-        
-        
-        //MARK: - Main func
-       /*
-        if !isTweetTermPairExist(twitter: tweet.identifier, by: term) {
-            
-            guard let tweetRecord = try? TweetTable.findOrCreateTweet(matching: tweet, in: context) else {return}
-            guard let termRecord  = try? TermTable.findOrCreateTerm(search: term, in: context) else {return}
-            
-            tweetRecord.addToTerms(termRecord)
-            
-            for tweetMentions in tweet.tweetMentions {
+            try newTweetsTermPairs.forEach{ tweet in
+                let tweetRecord = try TweetTable.findOrCreateTweet(matching: tweet, in: context)
+                tweetRecord.addToTerms(termRecord)
                 
-                guard let userOrHashtag = tweetMentions.userOrHashtag else {continue}
+                let userOrHashtags = tweet.tweetMentions.flatMap{ $0.userOrHashtag }
                 
-                //print("DEB1: userOrHashtag  title: \(userOrHashtag.title) for [\(userOrHashtag.mentions)]")
-                
-                for mention in userOrHashtag.mentions {
-                    
-                    if let mentionRecord = try? MentionTable.findOrCreateMention(matching: mention, in: context) {
-                        
-                        
-                        _ = try? createOrUpdatePopularity(by: mentionRecord, for: termRecord)
-                        let typeMentionTable = try? MentionTypeTable.findOrCreateMentionType(type: userOrHashtag.title, in: context)
-                        typeMentionTable!.addToMentions(mentionRecord)
-                        
+                try userOrHashtags.forEach{userOrHashtag in
+                   try userOrHashtag.mentions.forEach{ mention in
+                         let mentionRecord = try MentionTable.findOrCreateMention(matching: mention, in: context)
+                          _ = try PopularityTable.createOrUpdatePopularity(by: mentionRecord, for: termRecord, in: context)
+                         let typeMentionTable = try MentionTypeTable.findOrCreateMentionType(type: userOrHashtag.title, in: context)
+                         typeMentionTable.addToMentions(mentionRecord)
                     }
                 }
             }
-        } */
-    }
+            
+        } catch {
+            print("ERROR in PopularityManagerFast: \(error.localizedDescription) ")
+            return
+        }
     
+    }
+ 
     
     mutating func fetchMentions(for term : String, with popularity : Int) {
         
