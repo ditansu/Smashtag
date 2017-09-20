@@ -52,6 +52,40 @@ class TweetTable: NSManagedObject {
         return !matchesTerm.isEmpty
     }
     
+    
+    
+    class func getTweetsIdWithoutTerm(from tweets : [Twitter.Tweet], for term: String, in context : NSManagedObjectContext)throws -> [String] {
+        
+        let tweetsId = tweets.map{ $0.identifier }
+        let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
+        request.predicate = NSPredicate(format: "unique IN %@ and terms.term CONTAINS[cd] %@", tweetsId, term)
+        do {
+            let matchedTweetsID = try context.fetch(request).map{ $0.unique! }
+            return tweetsId.filter{ !matchedTweetsID.contains($0) }
+        } catch {
+            throw error
+        }
+    
+    }
+    
+    class func updateTweetsByTerm(for tweets : [Twitter.Tweet], for term: String, in context : NSManagedObjectContext)throws {
+        let tweetsID = tweets.map{ $0.identifier }
+        let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
+        request.predicate = NSPredicate(format: "unique IN %@", tweetsID)
+        
+        do {
+            let tweetsForUpdate = try context.fetch(request)
+            print("DEB1: updateTweetsByTerm tweetsForUpdate.count: \(tweetsForUpdate.count)")
+            let termRec = try TermTable.findOrCreateTerm(search: term, in: context)
+            tweetsForUpdate.forEach{ tweet in
+                tweet.addToTerms(termRec)
+            }
+        } catch {
+            throw error
+        }
+    }
+     
+    
     class func createTweetsBatch(from tweets : [Twitter.Tweet], in context : NSManagedObjectContext)throws -> Bool
     {
         
@@ -61,18 +95,16 @@ class TweetTable: NSManagedObject {
         
         do {
             let matches = try context.fetch(request)
-            guard matches.count > 0 else { return false }
-            
             print("DEB1: createTweetsBatch matches.count: \(matches.count)")
             
             let matchedTweetsID = matches.map{ $0.unique! }
-            let newTweetsID = tweetsID.filter{ !matchedTweetsID.contains($0) }
+            let tweetsForCreate = tweetsID.filter{ !matchedTweetsID.contains($0) }
             
-            print("DEB1: createTweetsBatch newTweetsID.count: \(newTweetsID.count)")
+            print("DEB1: createTweetsBatch tweetsForCreate.count: \(tweetsForCreate.count)")
             
             var debugInsetcCount = 0
             
-            try newTweetsID.forEach{
+            try tweetsForCreate.forEach{
                 let tweetID = $0
                 print("DEB1: createTweetsBatch try insert \(tweetID)")
                 guard let twitterInfo = tweets.first(where: {$0.identifier == tweetID}) else {
@@ -89,7 +121,7 @@ class TweetTable: NSManagedObject {
                 debugInsetcCount += 1
             }
             
-            return !newTweetsID.isEmpty
+            return !tweetsForCreate.isEmpty
         } catch {
             throw error
         }

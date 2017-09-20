@@ -38,13 +38,9 @@ class PopularityTweetTableViewController: TweetTableViewController {
             
             guard let term = self?.searchText! else {return}
             
-            let popularityManager = PopularityManager(context: context)
+            let popularityManager = PopularityManagerFast(context: context)
             
-            for tweet in tweets {
-                 popularityManager.calculateAndSavePopularity(from: tweet, by: term)
-                //TweetTable.findOrCreateTweet(matching: twitterInfo, in: context)
-            }
-            
+            popularityManager.calculateAndSavePopularity(from: tweets, by: term)
             try? context.save()
             print("DEB1: Popularity done load")
             self?.printDatabaseStatistics()

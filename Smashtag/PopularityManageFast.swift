@@ -47,37 +47,25 @@ struct PopularityManagerFast: PopularityManageProtocol {
         self.context = context
     }
     
+   
+    
     func calculateAndSavePopularity(from tweets: [Twitter.Tweet], by term: String) {
-        
+    
         do {
-            _ = try TweetTable.createTweetsBatch(from: tweets, in: context)
-            let termRecord  = try TermTable.findOrCreateTerm(search: term, in: context)
-            
-            let newTweetsTermPairs = tweets.filter{tweet in !TweetTable.isTweetTermPairExist(twitter: tweet.identifier, by: term, in: context)}
-            
-            try newTweetsTermPairs.forEach{ tweet in
-                let tweetRecord = try TweetTable.findOrCreateTweet(matching: tweet, in: context)
-                tweetRecord.addToTerms(termRecord)
-                
-                let userOrHashtags = tweet.tweetMentions.flatMap{ $0.userOrHashtag }
-                
-                try userOrHashtags.forEach{userOrHashtag in
-                   try userOrHashtag.mentions.forEach{ mention in
-                         let mentionRecord = try MentionTable.findOrCreateMention(matching: mention, in: context)
-                          _ = try PopularityTable.createOrUpdatePopularity(by: mentionRecord, for: termRecord, in: context)
-                         let typeMentionTable = try MentionTypeTable.findOrCreateMentionType(type: userOrHashtag.title, in: context)
-                         typeMentionTable.addToMentions(mentionRecord)
-                    }
-                }
-            }
-            
+            let tweetsIdWithoutTerm = try TweetTable.getTweetsIdWithoutTerm(from: tweets, for: term, in: context)
+            let tweetsForCalculatePopularity = tweets.filter{  tweetsIdWithoutTerm.contains($0.identifier) }
+            _ = try TweetTable.createTweetsBatch(from: tweetsForCalculatePopularity, in: context)
+            try TweetTable.updateTweetsByTerm(for: tweetsForCalculatePopularity, for: term, in: context)
+            try PopularityTable.calculateAndSavePopularity(for: tweetsForCalculatePopularity, for: term, in: context)
         } catch {
             print("ERROR in PopularityManagerFast: \(error.localizedDescription) ")
             return
         }
+
     
     }
- 
+
+
     
     mutating func fetchMentions(for term : String, with popularity : Int) {
         
@@ -175,8 +163,6 @@ struct PopularityManagerFast: PopularityManageProtocol {
     }
     
     var sectionIndexTitles: [String]? {
-        //["П","Х"] //fetchedResultsController?.sectionIndexTitles
-        //print("DEB1: sectionIndexTitles: \(String(describing: result))")
         return nil
     }
     

@@ -11,7 +11,7 @@ import CoreData
 import Twitter
 
 
-
+/// NOT USAGE, PLEASE USE PopularityManageFast
 
 
 private protocol TableViewDataSourceProtocol {
