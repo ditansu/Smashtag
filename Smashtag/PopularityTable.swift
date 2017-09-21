@@ -39,6 +39,34 @@ class PopularityTable: NSManagedObject {
     }
     
     
+    class func deleteOrUpdatePopularity(by mention : MentionTable, in context : NSManagedObjectContext)throws {
+    
+        let request : NSFetchRequest<PopularityTable> = PopularityTable.fetchRequest()
+        request.predicate = NSPredicate(format: "mention.mention = %@", mention.mention!)
+        do {
+            let matches = try context.fetch(request)
+            
+            if matches.isEmpty {
+                print("ERROR deleteOrUpdatePopularity matches.isEmpty")
+                fatalError()
+            }
+        
+            matches.forEach{ popularity in
+                popularity.popularity -= 1
+                if popularity.popularity < 1 {
+                   context.delete(popularity)
+                }
+            }
+            return popularity
+        } catch {
+            throw error
+        }
+
+        
+    
+    
+    }
+    
     class func calculateAndSavePopularity(for tweets: [Twitter.Tweet], for term : String, in context : NSManagedObjectContext)throws {
         
         do {

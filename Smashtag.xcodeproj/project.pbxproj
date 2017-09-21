@@ -312,8 +312,8 @@
 		02BE43631F6A70A900930D8A /* Tables */ = {
 			isa = PBXGroup;
 			children = (
-				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
 				02A8A6571F6150EC00D049F6 /* TweetTable.swift */,
+				02A8A6551F6150C400D049F6 /* MentionTable.swift */,
 				02120C391F65556B00E0AD89 /* TermTable.swift */,
 				02EF61BF1F66C201001216DA /* TwitterUserTable.swift */,
 				02BE43611F696C9500930D8A /* PopularityTable.swift */,

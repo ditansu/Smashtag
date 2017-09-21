@@ -41,4 +41,20 @@ class MentionTable: NSManagedObject {
         
     }
     
+    class func deleteOrUpdateMention(for mention : MentionTable,  in context : NSManagedObjectContext) throws {
+        
+        do {
+            
+            try PopularityTable.deleteOrUpdatePopularity(by: mention, in: context)
+            
+            
+            
+        } catch {
+            throw error
+        }
+ 
+        
+    }
+    
+    
 }

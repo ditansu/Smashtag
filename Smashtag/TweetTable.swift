@@ -21,7 +21,7 @@ class TweetTable: NSManagedObject {
             
             if matches.count > 0 { //  tweet alredy exist
                 assert(matches.count == 1, "TweetTable.findOrCreateTweet -- database inconsistency" )
-            
+                
                 let tweet = matches.first!
                 
                 return tweet
@@ -38,7 +38,7 @@ class TweetTable: NSManagedObject {
         tweet.created = twitterInfo.created as NSDate
         
         tweet.tweeter = try? TwitterUserTable.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
-
+        
         
         return tweet
         
@@ -65,7 +65,7 @@ class TweetTable: NSManagedObject {
         } catch {
             throw error
         }
-    
+        
     }
     
     class func updateTweetsByTerm(for tweets : [Twitter.Tweet], for term: String, in context : NSManagedObjectContext)throws {
@@ -84,7 +84,7 @@ class TweetTable: NSManagedObject {
             throw error
         }
     }
-     
+    
     
     class func createTweetsBatch(from tweets : [Twitter.Tweet], in context : NSManagedObjectContext)throws -> Bool
     {
@@ -102,11 +102,10 @@ class TweetTable: NSManagedObject {
             
             print("DEB1: createTweetsBatch tweetsForCreate.count: \(tweetsForCreate.count)")
             
-            var debugInsetcCount = 0
             
             try tweetsForCreate.forEach{
                 let tweetID = $0
-                print("DEB1: createTweetsBatch try insert \(tweetID)")
+                //print("DEB1: createTweetsBatch try insert \(tweetID)")
                 guard let twitterInfo = tweets.first(where: {$0.identifier == tweetID}) else {
                     print("ERROR: createTweetsBatch newTweetsID.forEach for tweetID \(tweetID)")
                     return
@@ -117,16 +116,65 @@ class TweetTable: NSManagedObject {
                 tweet.text    = twitterInfo.text
                 tweet.created = twitterInfo.created as NSDate
                 tweet.tweeter = try TwitterUserTable.findOrCreateTwitterUser(matching: twitterInfo.user, in: context)
-                print("DEB1: createTweetsBatch inserted: \(twitterInfo)")
-                debugInsetcCount += 1
+                
+                let mentions = twitterInfo.tweetMentions.flatMap{ $0.userOrHashtag}.flatMap{ $0.mentions }
+                
+                try mentions.forEach{ mention in
+                    let mentionRec = try MentionTable.findOrCreateMention(matching: mention, in: context)
+                    mentionRec.addToTweets(tweet)
+                }
+                
+                //print("DEB1: createTweetsBatch inserted: \(twitterInfo)")
+                
             }
             
             return !tweetsForCreate.isEmpty
         } catch {
             throw error
         }
-       // return false
+        // return false
     }
     
+    
+    
+    
+    class func deleteStaleTweets(after date : Date, in context : NSManagedObjectContext) throws {
+        
+        let request : NSFetchRequest<TweetTable> = TweetTable.fetchRequest()
+        request.predicate = NSPredicate(format: "created < %@", date as NSDate)
+        do {
+            
+            if let tweetCount = try? context.count(for: TweetTable.fetchRequest()){
+                print("DEB1: deleteStaleTweets before delete count: \(tweetCount)  ")
+            }
+            
+            let matches = try context.fetch(request)
+            print("DEB1: deleteStaleTweets will deleted: \(matches.count)")
+            
+            matches.forEach{tweet  in
+                
+                tweet.mentions?.forEach{mention in
+                    try MentionTable.deleteOrUpdateMention(for: mention, in: context)
+                    
+                }
+                
+                
+                context.delete(tweet)
+                //print("DEB1: delete  tweet \(tweet)")
+                
+            }
+            
+            
+            if let tweetCount = try? context.count(for: TweetTable.fetchRequest()){
+                print("DEB1: deleteStaleTweets after delete count: \(tweetCount)  ")
+            }
+
+            
+        } catch {
+            throw error
+        }
+        
+        
+    }
     
 }
